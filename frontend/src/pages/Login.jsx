@@ -8,8 +8,12 @@ import { useDocumentTitle } from '../utils/useDocumentTitle';
 import { Ticket, LogIn } from 'lucide-react';
 
 const LoginSchema = Yup.object().shape({
-  usernameOrEmail: Yup.string().required('Username or email is required'),
-  password: Yup.string().required('Password is required'),
+  usernameOrEmail: Yup.string()
+    .min(3, 'Username or email must be at least 3 characters')
+    .required('Username or email is required'),
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Password is required'),
 });
 
 export const Login = () => {
@@ -37,24 +41,24 @@ export const Login = () => {
 
   return (
     <Container className="d-flex align-items-center justify-content-center min-vh-100 py-5">
-      <Card className="glass-card p-4 p-md-5" style={{ maxWidth: '460px', width: '100%' }}>
+      <Card className="glass-card p-4 p-md-5" style={{ maxWidth: '460px', width: '100%', background: '#ffffff' }}>
         <div className="text-center mb-4">
-          <div className="d-inline-flex p-3 rounded-circle mb-3 shadow-lg" style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}>
+          <div className="d-inline-flex p-3 rounded-circle mb-3 shadow-lg" style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}>
             <Ticket size={40} className="text-white" />
           </div>
-          <h2 className="fw-bold text-white mb-2" style={{ letterSpacing: '-0.5px' }}>Welcome Back</h2>
-          <p className="text-slate-300 fs-6 mb-0" style={{ color: '#cbd5e1' }}>Sign in to your TicketDesk portal account</p>
+          <h2 className="fw-bold mb-1" style={{ color: '#0f172a', letterSpacing: '-0.5px' }}>Welcome Back</h2>
+          <p className="fs-6 mb-0" style={{ color: '#475569' }}>Sign in to your TicketDesk portal account</p>
         </div>
 
-        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+        {errorMessage && <Alert variant="danger" dismissible onClose={() => setErrorMessage('')}>{errorMessage}</Alert>}
 
         <Formik
           initialValues={{ usernameOrEmail: '', password: '' }}
           validationSchema={LoginSchema}
           onSubmit={handleSubmit}
         >
-          {({ handleSubmit, handleChange, values, errors, touched, isSubmitting }) => (
-            <Form onSubmit={handleSubmit}>
+          {({ handleSubmit, handleChange, handleBlur, values, errors, touched, isSubmitting }) => (
+            <Form onSubmit={handleSubmit} noValidate>
               <Form.Group className="mb-3">
                 <Form.Label className="form-label">Username or Email</Form.Label>
                 <Form.Control
@@ -63,10 +67,13 @@ export const Login = () => {
                   placeholder="e.g. admin or admin@ticketdesk.com"
                   value={values.usernameOrEmail}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   isInvalid={touched.usernameOrEmail && !!errors.usernameOrEmail}
                   className="form-control-dark"
                 />
-                <Form.Control.Feedback type="invalid">{errors.usernameOrEmail}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid" className="fw-semibold">
+                  {errors.usernameOrEmail}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-4">
@@ -77,10 +84,13 @@ export const Login = () => {
                   placeholder="••••••••"
                   value={values.password}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   isInvalid={touched.password && !!errors.password}
                   className="form-control-dark"
                 />
-                <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid" className="fw-semibold">
+                  {errors.password}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Button type="submit" disabled={isSubmitting} className="btn-indigo w-100 py-3 d-flex align-items-center justify-content-center gap-2 mb-3 fs-6">
@@ -90,9 +100,9 @@ export const Login = () => {
           )}
         </Formik>
 
-        <div className="text-center mt-3 pt-3 border-top border-secondary border-opacity-25 fs-6" style={{ color: '#cbd5e1' }}>
+        <div className="text-center mt-3 pt-3 border-top border-light fs-6" style={{ color: '#334155' }}>
           Don't have an account?{' '}
-          <Link to="/register" className="fw-bold text-decoration-none" style={{ color: '#c084fc' }}>
+          <Link to="/register" className="fw-bold text-decoration-none" style={{ color: '#4f46e5' }}>
             Register here
           </Link>
         </div>

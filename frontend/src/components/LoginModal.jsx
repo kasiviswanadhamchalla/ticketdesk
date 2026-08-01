@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Ticket, LogIn, Lock, Mail } from 'lucide-react';
+import { Ticket, LogIn } from 'lucide-react';
 
 const LoginSchema = Yup.object().shape({
   usernameOrEmail: Yup.string()
@@ -40,19 +40,19 @@ export const LoginModal = ({ show, onHide, onSwitchToRegister }) => {
 
   return (
     <Modal show={show} onHide={onHide} centered className="modal-dark">
-      <Modal.Header closeButton className="bg-dark text-white border-secondary border-opacity-25 px-4 pt-4 pb-2">
+      <Modal.Header closeButton className="bg-white border-bottom border-light px-4 pt-4 pb-2">
         <div className="d-flex align-items-center gap-3">
-          <div className="p-2 rounded-circle" style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}>
+          <div className="p-2 rounded-circle" style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}>
             <Ticket size={24} className="text-white" />
           </div>
           <div>
-            <Modal.Title className="fw-bold fs-4 text-white">Sign In to TicketDesk</Modal.Title>
-            <small className="text-slate-300 d-block" style={{ color: '#cbd5e1' }}>Enterprise IT Support Portal</small>
+            <Modal.Title className="fw-bold fs-4" style={{ color: '#0f172a' }}>Sign In to TicketDesk</Modal.Title>
+            <small className="d-block fw-semibold" style={{ color: '#475569' }}>Enterprise IT Support Portal</small>
           </div>
         </div>
       </Modal.Header>
 
-      <Modal.Body className="bg-dark text-white p-4">
+      <Modal.Body className="bg-white p-4">
         {errorMessage && <Alert variant="danger" dismissible onClose={() => setErrorMessage('')}>{errorMessage}</Alert>}
 
         <Formik
@@ -64,21 +64,19 @@ export const LoginModal = ({ show, onHide, onSwitchToRegister }) => {
             <Form onSubmit={handleSubmit} noValidate>
               <Form.Group className="mb-3">
                 <Form.Label className="form-label">Username or Email Address</Form.Label>
-                <div className="position-relative">
-                  <Form.Control
-                    type="text"
-                    name="usernameOrEmail"
-                    placeholder="Enter username (e.g. admin) or email"
-                    value={values.usernameOrEmail}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    isInvalid={touched.usernameOrEmail && !!errors.usernameOrEmail}
-                    className="form-control-dark"
-                  />
-                  <Form.Control.Feedback type="invalid" className="fw-semibold">
-                    {errors.usernameOrEmail}
-                  </Form.Control.Feedback>
-                </div>
+                <Form.Control
+                  type="text"
+                  name="usernameOrEmail"
+                  placeholder="Enter username (e.g. admin) or email"
+                  value={values.usernameOrEmail}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={touched.usernameOrEmail && !!errors.usernameOrEmail}
+                  className="form-control-dark"
+                />
+                <Form.Control.Feedback type="invalid" className="fw-semibold">
+                  {errors.usernameOrEmail}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-4">
@@ -105,12 +103,12 @@ export const LoginModal = ({ show, onHide, onSwitchToRegister }) => {
           )}
         </Formik>
 
-        <div className="text-center mt-3 pt-3 border-top border-secondary border-opacity-25 fs-6" style={{ color: '#cbd5e1' }}>
+        <div className="text-center mt-3 pt-3 border-top border-light fs-6" style={{ color: '#334155' }}>
           Don't have an account?{' '}
           <button
             onClick={() => { onHide(); if (onSwitchToRegister) onSwitchToRegister(); }}
             className="btn btn-link p-0 fw-bold text-decoration-none"
-            style={{ color: '#c084fc' }}
+            style={{ color: '#4f46e5' }}
           >
             Register here
           </button>
