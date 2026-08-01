@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Badge, Table, Button } from 'react-bootstrap';
+import { Row, Col, Card, Badge, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { dashboardApi } from '../api/dashboardApi';
 import { ticketApi } from '../api/ticketApi';
+import { useDocumentTitle } from '../utils/useDocumentTitle';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { Ticket, CheckCircle2, Clock, AlertCircle, PlusCircle, ArrowRight } from 'lucide-react';
 
-const COLORS = ['#3B82F6', '#F59E0B', '#10B981', '#6B7280', '#EF4444'];
+const COLORS = ['#38bdf8', '#fbbf24', '#34d399', '#cbd5e1', '#f87171'];
 
 export const Dashboard = () => {
+  useDocumentTitle('Support Dashboard');
   const [stats, setStats] = useState(null);
   const [recentTickets, setRecentTickets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,8 +49,8 @@ export const Dashboard = () => {
     <div className="p-3 p-md-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h2 className="fw-bold text-light mb-1">Support Dashboard</h2>
-          <p className="text-muted small">Real-time IT ticket analytics and operational statistics</p>
+          <h2 className="fw-bold text-white mb-1">Support Operational Dashboard</h2>
+          <p className="text-slate-300 small mb-0" style={{ color: '#cbd5e1' }}>Real-time IT ticket analytics, SLA tracking, and resolution metrics</p>
         </div>
         <Link to="/tickets/create" className="btn btn-indigo d-flex align-items-center gap-2">
           <PlusCircle size={18} /> New Ticket
@@ -61,25 +63,11 @@ export const Dashboard = () => {
           <Card className="glass-card p-3">
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <span className="text-muted small fw-semibold d-block">TOTAL TICKETS</span>
-                <span className="fs-2 fw-extrabold text-light">{stats?.totalTickets || 0}</span>
+                <span className="small fw-bold d-block mb-1" style={{ color: '#94a3b8' }}>TOTAL TICKETS</span>
+                <span className="fs-2 fw-extrabold text-white">{stats?.totalTickets || 0}</span>
               </div>
-              <div className="p-3 rounded-3 bg-indigo-600 bg-opacity-20 text-indigo-400" style={{ background: 'rgba(99, 102, 241, 0.15)' }}>
-                <Ticket size={24} style={{ color: '#818cf8' }} />
-              </div>
-            </div>
-          </Card>
-        </Col>
-
-        <Col md={3} sm={6}>
-          <Card className="glass-card p-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <span className="text-muted small fw-semibold d-block">OPEN TICKETS</span>
-                <span className="fs-2 fw-extrabold text-info">{stats?.openTickets || 0}</span>
-              </div>
-              <div className="p-3 rounded-3 bg-info bg-opacity-20 text-info">
-                <AlertCircle size={24} />
+              <div className="p-3 rounded-4" style={{ background: 'rgba(99, 102, 241, 0.2)', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
+                <Ticket size={28} style={{ color: '#818cf8' }} />
               </div>
             </div>
           </Card>
@@ -89,11 +77,11 @@ export const Dashboard = () => {
           <Card className="glass-card p-3">
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <span className="text-muted small fw-semibold d-block">IN PROGRESS</span>
-                <span className="fs-2 fw-extrabold text-warning">{stats?.inProgressTickets || 0}</span>
+                <span className="small fw-bold d-block mb-1" style={{ color: '#94a3b8' }}>OPEN TICKETS</span>
+                <span className="fs-2 fw-extrabold" style={{ color: '#38bdf8' }}>{stats?.openTickets || 0}</span>
               </div>
-              <div className="p-3 rounded-3 bg-warning bg-opacity-20 text-warning">
-                <Clock size={24} />
+              <div className="p-3 rounded-4" style={{ background: 'rgba(56, 189, 248, 0.2)', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
+                <AlertCircle size={28} style={{ color: '#38bdf8' }} />
               </div>
             </div>
           </Card>
@@ -103,13 +91,27 @@ export const Dashboard = () => {
           <Card className="glass-card p-3">
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <span className="text-muted small fw-semibold d-block">RESOLVED / CLOSED</span>
-                <span className="fs-2 fw-extrabold text-success">
+                <span className="small fw-bold d-block mb-1" style={{ color: '#94a3b8' }}>IN PROGRESS</span>
+                <span className="fs-2 fw-extrabold" style={{ color: '#fbbf24' }}>{stats?.inProgressTickets || 0}</span>
+              </div>
+              <div className="p-3 rounded-4" style={{ background: 'rgba(251, 191, 36, 0.2)', border: '1px solid rgba(251, 191, 36, 0.3)' }}>
+                <Clock size={28} style={{ color: '#fbbf24' }} />
+              </div>
+            </div>
+          </Card>
+        </Col>
+
+        <Col md={3} sm={6}>
+          <Card className="glass-card p-3">
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <span className="small fw-bold d-block mb-1" style={{ color: '#94a3b8' }}>RESOLVED / CLOSED</span>
+                <span className="fs-2 fw-extrabold" style={{ color: '#34d399' }}>
                   {(stats?.resolvedTickets || 0) + (stats?.closedTickets || 0)}
                 </span>
               </div>
-              <div className="p-3 rounded-3 bg-success bg-opacity-20 text-success">
-                <CheckCircle2 size={24} />
+              <div className="p-3 rounded-4" style={{ background: 'rgba(52, 211, 153, 0.2)', border: '1px solid rgba(52, 211, 153, 0.3)' }}>
+                <CheckCircle2 size={28} style={{ color: '#34d399' }} />
               </div>
             </div>
           </Card>
@@ -119,8 +121,8 @@ export const Dashboard = () => {
       {/* Analytics Charts Row */}
       <Row className="g-3 mb-4">
         <Col md={6}>
-          <Card className="glass-card p-3 h-100">
-            <Card.Title className="text-light fw-semibold fs-6 mb-3">Ticket Status Distribution</Card.Title>
+          <Card className="glass-card p-4 h-100">
+            <Card.Title className="text-white fw-bold fs-5 mb-3">Ticket Status Breakdown</Card.Title>
             <div style={{ width: '100%', height: 260 }}>
               <ResponsiveContainer>
                 <PieChart>
@@ -129,7 +131,7 @@ export const Dashboard = () => {
                     cx="50%"
                     cy="50%"
                     innerRadius={60}
-                    outerRadius={90}
+                    outerRadius={95}
                     paddingAngle={5}
                     dataKey="value"
                   >
@@ -137,8 +139,8 @@ export const Dashboard = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ background: '#1e293b', borderColor: '#475569', borderRadius: 8 }} />
-                  <Legend />
+                  <Tooltip contentStyle={{ background: '#0f172a', borderColor: '#475569', borderRadius: 12, color: '#fff' }} />
+                  <Legend wrapperStyle={{ color: '#cbd5e1' }} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -146,15 +148,15 @@ export const Dashboard = () => {
         </Col>
 
         <Col md={6}>
-          <Card className="glass-card p-3 h-100">
-            <Card.Title className="text-light fw-semibold fs-6 mb-3">Priority Distribution</Card.Title>
+          <Card className="glass-card p-4 h-100">
+            <Card.Title className="text-white fw-bold fs-5 mb-3">Priority Distribution (SLA Target)</Card.Title>
             <div style={{ width: '100%', height: 260 }}>
               <ResponsiveContainer>
                 <BarChart data={priorityChartData}>
                   <XAxis dataKey="name" stroke="#94a3b8" />
                   <YAxis stroke="#94a3b8" />
-                  <Tooltip contentStyle={{ background: '#1e293b', borderColor: '#475569', borderRadius: 8 }} />
-                  <Bar dataKey="value" fill="#818cf8" radius={[8, 8, 0, 0]} />
+                  <Tooltip contentStyle={{ background: '#0f172a', borderColor: '#475569', borderRadius: 12, color: '#fff' }} />
+                  <Bar dataKey="value" fill="#c084fc" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -163,11 +165,11 @@ export const Dashboard = () => {
       </Row>
 
       {/* Recent Tickets Table */}
-      <Card className="glass-card p-3">
+      <Card className="glass-card p-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="text-light fw-semibold mb-0">Recent Support Tickets</h5>
-          <Link to="/tickets" className="text-indigo-400 d-flex align-items-center gap-1 text-decoration-none small fw-semibold">
-            View All <ArrowRight size={14} />
+          <h5 className="text-white fw-bold mb-0">Recent Support Requests</h5>
+          <Link to="/tickets" className="d-flex align-items-center gap-1 text-decoration-none small fw-bold" style={{ color: '#c084fc' }}>
+            View All Tickets <ArrowRight size={14} />
           </Link>
         </div>
 
@@ -187,18 +189,18 @@ export const Dashboard = () => {
             {recentTickets.length === 0 ? (
               <tr>
                 <td colSpan={7} className="text-center py-4 text-muted">
-                  No tickets found.
+                  No tickets recorded yet.
                 </td>
               </tr>
             ) : (
               recentTickets.map((t) => (
                 <tr key={t.id}>
                   <td className="fw-mono text-muted">{t.ticketNumber}</td>
-                  <td className="fw-medium text-light">{t.title}</td>
+                  <td className="fw-semibold text-white">{t.title}</td>
                   <td>
-                    <Badge bg={t.status === 'OPEN' ? 'primary' : t.status === 'IN_PROGRESS' ? 'warning' : 'success'}>
-                      {t.status}
-                    </Badge>
+                    <span className={`badge badge-status-${t.status.toLowerCase()}`}>
+                      {t.status.replace('_', ' ')}
+                    </span>
                   </td>
                   <td>{t.priority?.name || 'N/A'}</td>
                   <td>{t.category?.name || 'N/A'}</td>

@@ -3,10 +3,12 @@ import { Card, Table, Form, Button, Badge, Tabs, Tab, Modal, Alert } from 'react
 import { userApi } from '../api/userApi';
 import { categoryApi } from '../api/categoryApi';
 import { priorityApi } from '../api/priorityApi';
+import { useDocumentTitle } from '../utils/useDocumentTitle';
 import { LoadingSpinner } from '../components/LoadingSpinner';
-import { Shield, Users, Tag, AlertTriangle, Plus, Check } from 'lucide-react';
+import { Shield, Users, Tag, AlertTriangle, Plus } from 'lucide-react';
 
 export const AdminPanel = () => {
+  useDocumentTitle('Admin Panel');
   const [users, setUsers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [priorities, setPriorities] = useState([]);
@@ -20,7 +22,7 @@ export const AdminPanel = () => {
   const [showPrioModal, setShowPrioModal] = useState(false);
   const [prioName, setPrioName] = useState('');
   const [prioDesc, setPrioDesc] = useState('');
-  const [prioColor, setPrioColor] = useState('#3B82F6');
+  const [prioColor, setPrioColor] = useState('#38bdf8');
   const [prioSla, setPrioSla] = useState(24);
 
   const [msg, setMsg] = useState('');
@@ -110,18 +112,18 @@ export const AdminPanel = () => {
   return (
     <div className="p-3 p-md-4">
       <div className="mb-4">
-        <h2 className="fw-bold text-light mb-1 d-flex align-items-center gap-2">
-          <Shield size={28} className="text-indigo-400" /> Admin Control Center
+        <h2 className="fw-bold text-white mb-1 d-flex align-items-center gap-2">
+          <Shield size={30} style={{ color: '#c084fc' }} /> Admin Control Center
         </h2>
-        <p className="text-muted small">System configuration, user role management, and SLA definitions</p>
+        <p className="text-slate-300 small mb-0" style={{ color: '#cbd5e1' }}>System configurations, user role management, and SLA target definitions</p>
       </div>
 
       {msg && <Alert variant="success" dismissible onClose={() => setMsg('')}>{msg}</Alert>}
 
       <Tabs defaultActiveKey="users" className="mb-4 tabs-dark">
         {/* Users Management Tab */}
-        <Tab eventKey="users" title={<span className="d-flex align-items-center gap-2"><Users size={16} /> User Management</span>}>
-          <Card className="glass-card p-3">
+        <Tab eventKey="users" title={<span className="d-flex align-items-center gap-2 fw-bold"><Users size={18} /> User Management</span>}>
+          <Card className="glass-card p-4">
             <Table responsive className="table-custom mb-0">
               <thead>
                 <tr>
@@ -136,7 +138,7 @@ export const AdminPanel = () => {
                 {users.map((u) => (
                   <tr key={u.id}>
                     <td>
-                      <div className="fw-semibold text-light">{u.firstName} {u.lastName}</div>
+                      <div className="fw-bold text-white">{u.firstName} {u.lastName}</div>
                       <small className="text-muted">@{u.username}</small>
                     </td>
                     <td>{u.email}</td>
@@ -146,7 +148,7 @@ export const AdminPanel = () => {
                         value={u.role}
                         onChange={(e) => handleRoleChange(u.id, e.target.value)}
                         className="form-select-dark py-1"
-                        style={{ width: '180px' }}
+                        style={{ width: '190px' }}
                       >
                         <option value="ROLE_EMPLOYEE">Employee</option>
                         <option value="ROLE_SUPPORT_ENGINEER">Support Engineer</option>
@@ -175,10 +177,10 @@ export const AdminPanel = () => {
         </Tab>
 
         {/* Categories Tab */}
-        <Tab eventKey="categories" title={<span className="d-flex align-items-center gap-2"><Tag size={16} /> Categories</span>}>
-          <Card className="glass-card p-3">
+        <Tab eventKey="categories" title={<span className="d-flex align-items-center gap-2 fw-bold"><Tag size={18} /> Categories</span>}>
+          <Card className="glass-card p-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5 className="text-light mb-0">Ticket Categories</h5>
+              <h5 className="text-white fw-bold mb-0">Ticket Categories</h5>
               <Button className="btn-indigo btn-sm d-flex align-items-center gap-1" onClick={() => setShowCatModal(true)}>
                 <Plus size={16} /> Add Category
               </Button>
@@ -195,8 +197,8 @@ export const AdminPanel = () => {
                 {categories.map((c) => (
                   <tr key={c.id}>
                     <td>{c.id}</td>
-                    <td className="fw-semibold text-light">{c.name}</td>
-                    <td className="text-muted">{c.description}</td>
+                    <td className="fw-bold text-white">{c.name}</td>
+                    <td className="text-slate-300" style={{ color: '#cbd5e1' }}>{c.description}</td>
                   </tr>
                 ))}
               </tbody>
@@ -205,10 +207,10 @@ export const AdminPanel = () => {
         </Tab>
 
         {/* Priorities & SLA Tab */}
-        <Tab eventKey="priorities" title={<span className="d-flex align-items-center gap-2"><AlertTriangle size={16} /> Priorities & SLA</span>}>
-          <Card className="glass-card p-3">
+        <Tab eventKey="priorities" title={<span className="d-flex align-items-center gap-2 fw-bold"><AlertTriangle size={18} /> Priorities & SLA</span>}>
+          <Card className="glass-card p-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5 className="text-light mb-0">Priority Levels & SLA Target Hours</h5>
+              <h5 className="text-white fw-bold mb-0">Priority Levels & SLA Target Hours</h5>
               <Button className="btn-indigo btn-sm d-flex align-items-center gap-1" onClick={() => setShowPrioModal(true)}>
                 <Plus size={16} /> Add Priority
               </Button>
@@ -227,15 +229,15 @@ export const AdminPanel = () => {
                 {priorities.map((p) => (
                   <tr key={p.id}>
                     <td>{p.id}</td>
-                    <td className="fw-semibold text-light">{p.name}</td>
-                    <td><Badge bg="info">{p.slaHours} Hours</Badge></td>
+                    <td className="fw-bold text-white">{p.name}</td>
+                    <td><Badge bg="info" className="px-2 py-1">{p.slaHours} Hours</Badge></td>
                     <td>
                       <div className="d-flex align-items-center gap-2">
-                        <div style={{ width: 16, height: 16, borderRadius: '50%', backgroundColor: p.colorCode }} />
-                        <code className="text-muted">{p.colorCode}</code>
+                        <div style={{ width: 18, height: 18, borderRadius: '50%', backgroundColor: p.colorCode }} />
+                        <code className="text-slate-300" style={{ color: '#cbd5e1' }}>{p.colorCode}</code>
                       </div>
                     </td>
-                    <td className="text-muted">{p.description}</td>
+                    <td className="text-slate-300" style={{ color: '#cbd5e1' }}>{p.description}</td>
                   </tr>
                 ))}
               </tbody>
@@ -246,16 +248,16 @@ export const AdminPanel = () => {
 
       {/* Add Category Modal */}
       <Modal show={showCatModal} onHide={() => setShowCatModal(false)} centered className="modal-dark">
-        <Modal.Header closeButton className="bg-dark text-light border-secondary">
+        <Modal.Header closeButton className="bg-dark text-white border-secondary">
           <Modal.Title>Add New Category</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="bg-dark text-light">
+        <Modal.Body className="bg-dark text-white">
           <Form.Group className="mb-3">
-            <Form.Label className="small text-muted">Category Name</Form.Label>
+            <Form.Label className="form-label">Category Name</Form.Label>
             <Form.Control type="text" value={catName} onChange={(e) => setCatName(e.target.value)} className="form-control-dark" />
           </Form.Group>
           <Form.Group>
-            <Form.Label className="small text-muted">Description</Form.Label>
+            <Form.Label className="form-label">Description</Form.Label>
             <Form.Control as="textarea" rows={3} value={catDesc} onChange={(e) => setCatDesc(e.target.value)} className="form-control-dark" />
           </Form.Group>
         </Modal.Body>
@@ -267,24 +269,24 @@ export const AdminPanel = () => {
 
       {/* Add Priority Modal */}
       <Modal show={showPrioModal} onHide={() => setShowPrioModal(false)} centered className="modal-dark">
-        <Modal.Header closeButton className="bg-dark text-light border-secondary">
+        <Modal.Header closeButton className="bg-dark text-white border-secondary">
           <Modal.Title>Add Priority & SLA</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="bg-dark text-light">
+        <Modal.Body className="bg-dark text-white">
           <Form.Group className="mb-3">
-            <Form.Label className="small text-muted">Priority Name</Form.Label>
+            <Form.Label className="form-label">Priority Name</Form.Label>
             <Form.Control type="text" value={prioName} onChange={(e) => setPrioName(e.target.value)} className="form-control-dark" />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label className="small text-muted">SLA Target Hours</Form.Label>
+            <Form.Label className="form-label">SLA Target Hours</Form.Label>
             <Form.Control type="number" value={prioSla} onChange={(e) => setPrioSla(e.target.value)} className="form-control-dark" />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label className="small text-muted">Badge Color</Form.Label>
+            <Form.Label className="form-label">Badge Color</Form.Label>
             <Form.Control type="color" value={prioColor} onChange={(e) => setPrioColor(e.target.value)} className="form-control-color w-100" />
           </Form.Group>
           <Form.Group>
-            <Form.Label className="small text-muted">Description</Form.Label>
+            <Form.Label className="form-label">Description</Form.Label>
             <Form.Control as="textarea" rows={2} value={prioDesc} onChange={(e) => setPrioDesc(e.target.value)} className="form-control-dark" />
           </Form.Group>
         </Modal.Body>

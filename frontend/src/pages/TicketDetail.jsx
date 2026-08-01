@@ -4,19 +4,23 @@ import { Row, Col, Card, Badge, Button, Form, Modal, Alert } from 'react-bootstr
 import { ticketApi } from '../api/ticketApi';
 import { userApi } from '../api/userApi';
 import { useAuth } from '../context/AuthContext';
+import { useDocumentTitle } from '../utils/useDocumentTitle';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { CommentSection } from '../components/CommentSection';
 import { AttachmentUploader } from '../components/AttachmentUploader';
-import { ArrowLeft, User, Clock, Tag, ShieldCheck, CheckCircle2, XCircle, RotateCcw } from 'lucide-react';
+import { ArrowLeft, User, Clock, Tag, CheckCircle2, XCircle, RotateCcw } from 'lucide-react';
 
 export const TicketDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, hasRole } = useAuth();
+  const { hasRole } = useAuth();
 
   const [ticket, setTicket] = useState(null);
   const [engineers, setEngineers] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Dynamic Title Tag Update
+  useDocumentTitle(ticket ? `${ticket.ticketNumber} - ${ticket.title}` : 'Ticket Details');
 
   // Status Change State
   const [statusComment, setStatusComment] = useState('');
@@ -76,7 +80,7 @@ export const TicketDetail = () => {
 
   return (
     <div className="p-3 p-md-4">
-      <Button variant="link" onClick={() => navigate('/tickets')} className="text-muted text-decoration-none p-0 mb-3 d-flex align-items-center gap-1">
+      <Button variant="link" onClick={() => navigate('/tickets')} className="text-slate-300 text-decoration-none p-0 mb-3 d-flex align-items-center gap-1">
         <ArrowLeft size={16} /> Back to Tickets
       </Button>
 
@@ -86,16 +90,16 @@ export const TicketDetail = () => {
           <div>
             <div className="d-flex align-items-center gap-2 mb-2">
               <span className="fw-mono text-muted fs-6">{ticket.ticketNumber}</span>
-              <Badge bg={ticket.status === 'OPEN' ? 'primary' : ticket.status === 'IN_PROGRESS' ? 'warning' : 'success'}>
-                {ticket.status}
-              </Badge>
+              <span className={`badge badge-status-${ticket.status.toLowerCase()}`}>
+                {ticket.status.replace('_', ' ')}
+              </span>
               {ticket.priority && (
                 <Badge style={{ backgroundColor: `${ticket.priority.colorCode}25`, color: ticket.priority.colorCode, border: `1px solid ${ticket.priority.colorCode}` }}>
                   {ticket.priority.name} Priority
                 </Badge>
               )}
             </div>
-            <h3 className="fw-bold text-light mb-2">{ticket.title}</h3>
+            <h3 className="fw-bold text-white mb-2">{ticket.title}</h3>
           </div>
 
           {/* Action Buttons */}
@@ -105,7 +109,7 @@ export const TicketDetail = () => {
                 variant="outline-success"
                 size="sm"
                 onClick={() => { setTargetStatus('RESOLVED'); setShowStatusModal(true); }}
-                className="d-flex align-items-center gap-1"
+                className="d-flex align-items-center gap-1 fw-bold"
               >
                 <CheckCircle2 size={16} /> Resolve Ticket
               </Button>
@@ -116,7 +120,7 @@ export const TicketDetail = () => {
                 variant="outline-secondary"
                 size="sm"
                 onClick={() => { setTargetStatus('CLOSED'); setShowStatusModal(true); }}
-                className="d-flex align-items-center gap-1"
+                className="d-flex align-items-center gap-1 fw-bold"
               >
                 <XCircle size={16} /> Close Ticket
               </Button>
@@ -127,7 +131,7 @@ export const TicketDetail = () => {
                 variant="outline-warning"
                 size="sm"
                 onClick={() => { setTargetStatus('REOPENED'); setShowStatusModal(true); }}
-                className="d-flex align-items-center gap-1"
+                className="d-flex align-items-center gap-1 fw-bold"
               >
                 <RotateCcw size={16} /> Reopen Ticket
               </Button>
@@ -136,16 +140,16 @@ export const TicketDetail = () => {
         </div>
 
         {/* Metadata Details */}
-        <Row className="g-3 pt-3 border-top border-secondary border-opacity-25 text-muted small">
+        <Row className="g-3 pt-3 border-top border-secondary border-opacity-25 text-slate-300 small" style={{ color: '#cbd5e1' }}>
           <Col md={3} sm={6}>
-            <div className="fw-semibold text-light mb-1">Created By</div>
+            <div className="fw-bold text-white mb-1">Created By</div>
             <div className="d-flex align-items-center gap-1">
               <User size={14} /> {ticket.createdBy?.firstName} {ticket.createdBy?.lastName}
             </div>
           </Col>
 
           <Col md={3} sm={6}>
-            <div className="fw-semibold text-light mb-1">Assigned Support Engineer</div>
+            <div className="fw-bold text-white mb-1">Assigned Support Engineer</div>
             {hasRole(['ROLE_ADMIN', 'ROLE_SUPPORT_ENGINEER']) ? (
               <Form.Select
                 size="sm"
@@ -164,14 +168,14 @@ export const TicketDetail = () => {
           </Col>
 
           <Col md={3} sm={6}>
-            <div className="fw-semibold text-light mb-1">Category</div>
+            <div className="fw-bold text-white mb-1">Category</div>
             <div className="d-flex align-items-center gap-1">
               <Tag size={14} /> {ticket.category?.name || 'Uncategorized'}
             </div>
           </Col>
 
           <Col md={3} sm={6}>
-            <div className="fw-semibold text-light mb-1">Created Date</div>
+            <div className="fw-bold text-white mb-1">Created Date</div>
             <div className="d-flex align-items-center gap-1">
               <Clock size={14} /> {new Date(ticket.createdAt).toLocaleString()}
             </div>
@@ -181,8 +185,8 @@ export const TicketDetail = () => {
 
       {/* Description Section */}
       <Card className="glass-card p-4 mb-4">
-        <h5 className="fw-semibold text-light mb-3">Problem Description</h5>
-        <div className="text-light-50" style={{ whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
+        <h5 className="fw-bold text-white mb-3">Problem Description</h5>
+        <div className="text-slate-200" style={{ whiteSpace: 'pre-wrap', lineHeight: 1.65, color: '#e2e8f0' }}>
           {ticket.description}
         </div>
       </Card>
@@ -195,13 +199,13 @@ export const TicketDetail = () => {
 
       {/* Status Update Modal */}
       <Modal show={showStatusModal} onHide={() => setShowStatusModal(false)} centered className="modal-dark">
-        <Modal.Header closeButton className="bg-dark text-light border-secondary">
+        <Modal.Header closeButton className="bg-dark text-white border-secondary">
           <Modal.Title>Confirm Status Transition to {targetStatus}</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="bg-dark text-light">
+        <Modal.Body className="bg-dark text-white">
           {statusError && <Alert variant="danger">{statusError}</Alert>}
           <Form.Group>
-            <Form.Label className="small text-muted fw-semibold">Status Change Reason / Note (Optional)</Form.Label>
+            <Form.Label className="form-label">Status Change Reason / Note (Optional)</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}

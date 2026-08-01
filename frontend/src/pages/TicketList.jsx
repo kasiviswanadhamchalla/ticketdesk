@@ -3,11 +3,13 @@ import { Row, Col, Form, InputGroup, Pagination, Card } from 'react-bootstrap';
 import { ticketApi } from '../api/ticketApi';
 import { categoryApi } from '../api/categoryApi';
 import { priorityApi } from '../api/priorityApi';
+import { useDocumentTitle } from '../utils/useDocumentTitle';
 import { TicketCard } from '../components/TicketCard';
 import { LoadingSpinner } from '../components/LoadingSpinner';
-import { Search, Filter, RefreshCw } from 'lucide-react';
+import { Search, RefreshCw } from 'lucide-react';
 
 export const TicketList = () => {
+  useDocumentTitle('Ticket Directory');
   const [tickets, setTickets] = useState([]);
   const [categories, setCategories] = useState([]);
   const [priorities, setPriorities] = useState([]);
@@ -74,8 +76,8 @@ export const TicketList = () => {
     <div className="p-3 p-md-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h2 className="fw-bold text-light mb-1">Ticket Directory</h2>
-          <p className="text-muted small">Manage, filter, and track all IT support tickets</p>
+          <h2 className="fw-bold text-white mb-1">Ticket Directory</h2>
+          <p className="text-slate-300 small mb-0" style={{ color: '#cbd5e1' }}>Search, filter, and manage support tickets</p>
         </div>
       </div>
 
@@ -85,12 +87,12 @@ export const TicketList = () => {
           <Col md={4}>
             <Form onSubmit={handleSearchSubmit}>
               <InputGroup>
-                <InputGroup.Text className="bg-dark bg-opacity-70 border-secondary border-opacity-25 text-muted">
+                <InputGroup.Text className="bg-dark border-secondary border-opacity-25 text-muted">
                   <Search size={18} />
                 </InputGroup.Text>
                 <Form.Control
                   type="text"
-                  placeholder="Search by title, description or TICK-ID..."
+                  placeholder="Search title, description or TICK-ID..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="form-control-dark"

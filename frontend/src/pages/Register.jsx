@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useDocumentTitle } from '../utils/useDocumentTitle';
 import { UserPlus, Ticket } from 'lucide-react';
 
 const RegisterSchema = Yup.object().shape({
@@ -15,6 +16,7 @@ const RegisterSchema = Yup.object().shape({
 });
 
 export const Register = () => {
+  useDocumentTitle('Register Account');
   const { register } = useAuth();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
@@ -39,13 +41,13 @@ export const Register = () => {
 
   return (
     <Container className="d-flex align-items-center justify-content-center min-vh-100 py-5">
-      <Card className="glass-card p-4 p-md-5" style={{ maxWidth: '520px', width: '100%' }}>
+      <Card className="glass-card p-4 p-md-5" style={{ maxWidth: '540px', width: '100%' }}>
         <div className="text-center mb-4">
-          <div className="d-inline-flex p-3 rounded-circle bg-indigo-600 mb-3" style={{ background: 'linear-gradient(135deg, #6366f1, #4f46e5)' }}>
-            <Ticket size={36} className="text-white" />
+          <div className="d-inline-flex p-3 rounded-circle mb-3 shadow-lg" style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}>
+            <Ticket size={40} className="text-white" />
           </div>
-          <h2 className="fw-bold text-light mb-1">Create an Account</h2>
-          <p className="text-muted small">Join TicketDesk IT Support Portal</p>
+          <h2 className="fw-bold text-white mb-2" style={{ letterSpacing: '-0.5px' }}>Create an Account</h2>
+          <p className="text-slate-300 fs-6 mb-0" style={{ color: '#cbd5e1' }}>Join TicketDesk IT Support Portal</p>
         </div>
 
         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
@@ -61,7 +63,7 @@ export const Register = () => {
               <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3">
-                    <Form.Label className="text-muted small fw-semibold">First Name</Form.Label>
+                    <Form.Label className="form-label">First Name</Form.Label>
                     <Form.Control
                       type="text"
                       name="firstName"
@@ -75,7 +77,7 @@ export const Register = () => {
                 </Col>
                 <Col md={6}>
                   <Form.Group className="mb-3">
-                    <Form.Label className="text-muted small fw-semibold">Last Name</Form.Label>
+                    <Form.Label className="form-label">Last Name</Form.Label>
                     <Form.Control
                       type="text"
                       name="lastName"
@@ -90,7 +92,7 @@ export const Register = () => {
               </Row>
 
               <Form.Group className="mb-3">
-                <Form.Label className="text-muted small fw-semibold">Username</Form.Label>
+                <Form.Label className="form-label">Username</Form.Label>
                 <Form.Control
                   type="text"
                   name="username"
@@ -103,7 +105,7 @@ export const Register = () => {
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label className="text-muted small fw-semibold">Email Address</Form.Label>
+                <Form.Label className="form-label">Email Address</Form.Label>
                 <Form.Control
                   type="email"
                   name="email"
@@ -116,7 +118,7 @@ export const Register = () => {
               </Form.Group>
 
               <Form.Group className="mb-4">
-                <Form.Label className="text-muted small fw-semibold">Password</Form.Label>
+                <Form.Label className="form-label">Password</Form.Label>
                 <Form.Control
                   type="password"
                   name="password"
@@ -128,16 +130,16 @@ export const Register = () => {
                 <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
               </Form.Group>
 
-              <Button type="submit" disabled={isSubmitting} className="btn-indigo w-100 py-2 d-flex align-items-center justify-content-center gap-2 mb-3">
-                <UserPlus size={18} /> {isSubmitting ? 'Creating Account...' : 'Register'}
+              <Button type="submit" disabled={isSubmitting} className="btn-indigo w-100 py-3 d-flex align-items-center justify-content-center gap-2 mb-3 fs-6">
+                <UserPlus size={20} /> {isSubmitting ? 'Creating Account...' : 'Register'}
               </Button>
             </Form>
           )}
         </Formik>
 
-        <div className="text-center mt-2 pt-3 border-top border-secondary border-opacity-25 small text-muted">
+        <div className="text-center mt-2 pt-3 border-top border-secondary border-opacity-25 fs-6" style={{ color: '#cbd5e1' }}>
           Already have an account?{' '}
-          <Link to="/login" className="text-indigo-400 fw-semibold text-decoration-none">
+          <Link to="/login" className="fw-bold text-decoration-none" style={{ color: '#c084fc' }}>
             Sign In
           </Link>
         </div>
