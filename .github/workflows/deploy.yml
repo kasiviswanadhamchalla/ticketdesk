@@ -69,7 +69,7 @@ jobs:
       - name: Install & Build Frontend
         run: |
           cd frontend
-          npm install
+          npm install --legacy-peer-deps
           npm run build
 
   # Stage 4: Docker Build & ECR Push
