@@ -6,6 +6,7 @@ import { AppNavbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
+import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
@@ -24,7 +25,8 @@ export function App() {
             <AppNavbar />
             <div className="d-flex flex-grow-1">
               <Routes>
-                {/* Public Auth Routes */}
+                {/* Public Landing & Auth Routes */}
+                <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
@@ -34,12 +36,11 @@ export function App() {
                     path="/*"
                     element={
                       <div className="d-flex w-100">
-                        <aside className="d-none d-lg-block border-end border-secondary border-opacity-25" style={{ background: 'rgba(15, 23, 42, 0.4)' }}>
+                        <aside className="d-none d-lg-block border-end border-secondary border-opacity-25" style={{ background: 'rgba(9, 13, 22, 0.4)' }}>
                           <Sidebar />
                         </aside>
                         <main className="flex-grow-1 overflow-auto">
                           <Routes>
-                            <Route path="/" element={<Navigate to="/dashboard" replace />} />
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/tickets" element={<TicketList />} />
                             <Route path="/tickets/create" element={<CreateTicket />} />
