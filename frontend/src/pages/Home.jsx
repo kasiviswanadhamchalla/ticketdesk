@@ -15,9 +15,6 @@ import {
   FileCode,
   Server,
   CheckCircle2,
-  Lock,
-  Cpu,
-  Layers,
 } from 'lucide-react';
 
 export const Home = () => {
@@ -35,11 +32,11 @@ export const Home = () => {
   };
 
   return (
-    <div className="py-3">
-      {/* Hero Section */}
-      <Container fluid="xl" className="px-4 px-lg-5 py-4">
+    <div className="py-2 w-100">
+      {/* Hero Section - Full Width Container */}
+      <Container fluid className="px-3 px-md-5 py-3">
         <Row className="align-items-center g-4 g-lg-5">
-          {/* Left Column: Rich Enterprise Copy & Features */}
+          {/* Left Column: Headline & Feature Highlights */}
           <Col lg={6}>
             <div className="mb-3">
               <span
@@ -61,30 +58,30 @@ export const Home = () => {
               Streamline IT support requests, automate SLA tracking, and manage tickets with pre-signed AWS S3 file uploads, real-time analytics, and role-based access control.
             </p>
 
-            {/* Checklist Feature Highlights to eliminate empty vertical gaps */}
+            {/* Checklist Items */}
             <div className="d-flex flex-column gap-2 mb-4">
-              <div className="d-flex align-items-center gap-2 text-dark font-medium small">
+              <div className="d-flex align-items-center gap-2 text-dark small">
                 <CheckCircle2 size={18} className="text-success flex-shrink-0" />
                 <span className="fw-semibold" style={{ color: '#1e293b' }}>
                   Stateless JWT Security & Granular Role-Based Access (Admin, Engineer, Employee)
                 </span>
               </div>
 
-              <div className="d-flex align-items-center gap-2 text-dark font-medium small">
+              <div className="d-flex align-items-center gap-2 text-dark small">
                 <CheckCircle2 size={18} className="text-success flex-shrink-0" />
                 <span className="fw-semibold" style={{ color: '#1e293b' }}>
                   Direct AWS S3 Pre-signed File Uploads with zero-server overhead
                 </span>
               </div>
 
-              <div className="d-flex align-items-center gap-2 text-dark font-medium small">
+              <div className="d-flex align-items-center gap-2 text-dark small">
                 <CheckCircle2 size={18} className="text-success flex-shrink-0" />
                 <span className="fw-semibold" style={{ color: '#1e293b' }}>
                   Automated SLA Target Tracking & Real-Time Recharts Analytics Dashboard
                 </span>
               </div>
 
-              <div className="d-flex align-items-center gap-2 text-dark font-medium small">
+              <div className="d-flex align-items-center gap-2 text-dark small">
                 <CheckCircle2 size={18} className="text-success flex-shrink-0" />
                 <span className="fw-semibold" style={{ color: '#1e293b' }}>
                   Cloud-Native Infrastructure (ECS Fargate, ALB, Multi-AZ RDS PostgreSQL)
@@ -92,7 +89,7 @@ export const Home = () => {
               </div>
             </div>
 
-            {/* CTA Buttons */}
+            {/* CTA Action Buttons */}
             <div className="d-flex flex-wrap align-items-center gap-3">
               <Button onClick={handleLaunchClick} className="btn-indigo btn-lg px-4 py-3 d-flex align-items-center gap-2">
                 <Zap size={20} /> Launch Support Portal <ArrowRight size={20} />
@@ -104,7 +101,7 @@ export const Home = () => {
             </div>
           </Col>
 
-          {/* Right Column: Hero Live Widget Card */}
+          {/* Right Column: Full-Width Live Portal Card */}
           <Col lg={6}>
             <Card className="glass-card p-4 shadow-lg border-0 w-100" style={{ background: '#ffffff' }}>
               <div className="d-flex justify-content-between align-items-center mb-3">
@@ -152,9 +149,9 @@ export const Home = () => {
         </Row>
       </Container>
 
-      {/* Feature Showcase Grid - Balanced 6 Cards */}
-      <Container fluid="xl" className="px-4 px-lg-5 py-5">
-        <div className="text-center max-w-3xl mx-auto mb-5">
+      {/* Feature Showcase Grid - Full Width */}
+      <Container fluid className="px-3 px-md-5 py-4">
+        <div className="text-center max-w-3xl mx-auto mb-4">
           <h2 className="fw-extrabold mb-2" style={{ color: '#0f172a', fontSize: '2.2rem' }}>
             Built for Modern Enterprise IT Operations
           </h2>

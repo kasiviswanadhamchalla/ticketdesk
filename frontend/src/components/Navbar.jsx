@@ -19,8 +19,8 @@ export const AppNavbar = () => {
 
   return (
     <>
-      <Navbar expand="lg" className="navbar-custom sticky-top py-2 px-3">
-        <Container fluid="xl" className="px-4">
+      <Navbar expand="lg" className="navbar-custom sticky-top py-2 px-0">
+        <Container fluid className="px-3 px-md-5">
           <Navbar.Brand as={Link} to={user ? '/dashboard' : '/'} className="d-flex align-items-center gap-2 text-decoration-none">
             <div className="p-2 rounded-circle" style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}>
               <Ticket className="text-white" size={24} />
