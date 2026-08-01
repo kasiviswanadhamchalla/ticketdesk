@@ -14,6 +14,10 @@ import {
   Bell,
   FileCode,
   Server,
+  CheckCircle2,
+  Lock,
+  Cpu,
+  Layers,
 } from 'lucide-react';
 
 export const Home = () => {
@@ -31,14 +35,15 @@ export const Home = () => {
   };
 
   return (
-    <div className="py-4 mt-2">
-      {/* Hero Section - Balanced 50/50 Grid */}
-      <Container fluid="xl" className="px-4 px-lg-5 pt-3 pb-5">
+    <div className="py-3">
+      {/* Hero Section */}
+      <Container fluid="xl" className="px-4 px-lg-5 py-4">
         <Row className="align-items-center g-4 g-lg-5">
+          {/* Left Column: Rich Enterprise Copy & Features */}
           <Col lg={6}>
             <div className="mb-3">
               <span
-                className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill fw-bold fs-6"
+                className="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill fw-bold fs-6"
                 style={{ background: '#eef2ff', color: '#4f46e5', border: '1px solid #c7d2fe' }}
               >
                 ⚡ Enterprise AWS Ready Platform
@@ -47,16 +52,48 @@ export const Home = () => {
 
             <h1
               className="fw-extrabold mb-3"
-              style={{ color: '#0f172a', letterSpacing: '-1.5px', lineHeight: 1.18, fontSize: '2.8rem' }}
+              style={{ color: '#0f172a', letterSpacing: '-1.5px', lineHeight: 1.18, fontSize: '2.7rem' }}
             >
               Enterprise IT Support & Ticket Engine Built for Speed
             </h1>
 
-            <p className="fs-5 mb-4" style={{ color: '#334155', lineHeight: 1.65 }}>
+            <p className="fs-6 mb-3" style={{ color: '#334155', lineHeight: 1.65 }}>
               Streamline IT support requests, automate SLA tracking, and manage tickets with pre-signed AWS S3 file uploads, real-time analytics, and role-based access control.
             </p>
 
-            <div className="d-flex flex-wrap align-items-center gap-3 pt-2">
+            {/* Checklist Feature Highlights to eliminate empty vertical gaps */}
+            <div className="d-flex flex-column gap-2 mb-4">
+              <div className="d-flex align-items-center gap-2 text-dark font-medium small">
+                <CheckCircle2 size={18} className="text-success flex-shrink-0" />
+                <span className="fw-semibold" style={{ color: '#1e293b' }}>
+                  Stateless JWT Security & Granular Role-Based Access (Admin, Engineer, Employee)
+                </span>
+              </div>
+
+              <div className="d-flex align-items-center gap-2 text-dark font-medium small">
+                <CheckCircle2 size={18} className="text-success flex-shrink-0" />
+                <span className="fw-semibold" style={{ color: '#1e293b' }}>
+                  Direct AWS S3 Pre-signed File Uploads with zero-server overhead
+                </span>
+              </div>
+
+              <div className="d-flex align-items-center gap-2 text-dark font-medium small">
+                <CheckCircle2 size={18} className="text-success flex-shrink-0" />
+                <span className="fw-semibold" style={{ color: '#1e293b' }}>
+                  Automated SLA Target Tracking & Real-Time Recharts Analytics Dashboard
+                </span>
+              </div>
+
+              <div className="d-flex align-items-center gap-2 text-dark font-medium small">
+                <CheckCircle2 size={18} className="text-success flex-shrink-0" />
+                <span className="fw-semibold" style={{ color: '#1e293b' }}>
+                  Cloud-Native Infrastructure (ECS Fargate, ALB, Multi-AZ RDS PostgreSQL)
+                </span>
+              </div>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="d-flex flex-wrap align-items-center gap-3">
               <Button onClick={handleLaunchClick} className="btn-indigo btn-lg px-4 py-3 d-flex align-items-center gap-2">
                 <Zap size={20} /> Launch Support Portal <ArrowRight size={20} />
               </Button>
@@ -67,7 +104,7 @@ export const Home = () => {
             </div>
           </Col>
 
-          {/* Hero Live Widget Card - Balanced Right Side */}
+          {/* Right Column: Hero Live Widget Card */}
           <Col lg={6}>
             <Card className="glass-card p-4 shadow-lg border-0 w-100" style={{ background: '#ffffff' }}>
               <div className="d-flex justify-content-between align-items-center mb-3">
@@ -127,7 +164,6 @@ export const Home = () => {
         </div>
 
         <Row className="g-4">
-          {/* Card 1 */}
           <Col md={4}>
             <Card className="glass-card p-4 h-100 border-0 shadow-sm" style={{ background: '#ffffff' }}>
               <div className="p-3 rounded-3 d-inline-flex mb-3" style={{ background: '#eef2ff', color: '#4f46e5', width: 'fit-content' }}>
@@ -140,7 +176,6 @@ export const Home = () => {
             </Card>
           </Col>
 
-          {/* Card 2 */}
           <Col md={4}>
             <Card className="glass-card p-4 h-100 border-0 shadow-sm" style={{ background: '#ffffff' }}>
               <div className="p-3 rounded-3 d-inline-flex mb-3" style={{ background: '#f3e8ff', color: '#7c3aed', width: 'fit-content' }}>
@@ -153,7 +188,6 @@ export const Home = () => {
             </Card>
           </Col>
 
-          {/* Card 3 */}
           <Col md={4}>
             <Card className="glass-card p-4 h-100 border-0 shadow-sm" style={{ background: '#ffffff' }}>
               <div className="p-3 rounded-3 d-inline-flex mb-3" style={{ background: '#ecfdf5', color: '#059669', width: 'fit-content' }}>
@@ -166,7 +200,6 @@ export const Home = () => {
             </Card>
           </Col>
 
-          {/* Card 4 */}
           <Col md={4}>
             <Card className="glass-card p-4 h-100 border-0 shadow-sm" style={{ background: '#ffffff' }}>
               <div className="p-3 rounded-3 d-inline-flex mb-3" style={{ background: '#fff7ed', color: '#ea580c', width: 'fit-content' }}>
@@ -179,7 +212,6 @@ export const Home = () => {
             </Card>
           </Col>
 
-          {/* Card 5 */}
           <Col md={4}>
             <Card className="glass-card p-4 h-100 border-0 shadow-sm" style={{ background: '#ffffff' }}>
               <div className="p-3 rounded-3 d-inline-flex mb-3" style={{ background: '#f0f9ff', color: '#0284c7', width: 'fit-content' }}>
@@ -192,7 +224,6 @@ export const Home = () => {
             </Card>
           </Col>
 
-          {/* Card 6 */}
           <Col md={4}>
             <Card className="glass-card p-4 h-100 border-0 shadow-sm" style={{ background: '#ffffff' }}>
               <div className="p-3 rounded-3 d-inline-flex mb-3" style={{ background: '#fdf2f8', color: '#db2777', width: 'fit-content' }}>
