@@ -99,11 +99,6 @@
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
         </dependency>
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>s3-presigner</artifactId>
-            <version>${aws.sdk.version}</version>
-        </dependency>
 
         <!-- Lombok & MapStruct -->
         <dependency>
