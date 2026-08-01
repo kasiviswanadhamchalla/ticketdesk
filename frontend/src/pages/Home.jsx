@@ -14,8 +14,6 @@ import {
   Bell,
   FileCode,
   Server,
-  Clock,
-  CheckCircle2,
 } from 'lucide-react';
 
 export const Home = () => {
@@ -33,23 +31,23 @@ export const Home = () => {
   };
 
   return (
-    <div className="py-4 mt-3">
-      {/* Hero Section with Extra Top Spacing to Prevent Navbar Overlap */}
-      <Container className="pt-4 pb-5">
-        <Row className="align-items-center g-5">
-          <Col lg={7}>
+    <div className="py-4 mt-2">
+      {/* Hero Section - Balanced 50/50 Grid */}
+      <Container fluid="xl" className="px-4 px-lg-5 pt-3 pb-5">
+        <Row className="align-items-center g-4 g-lg-5">
+          <Col lg={6}>
             <div className="mb-3">
-              <Badge
-                className="px-3 py-2 fs-6 rounded-pill fw-bold"
+              <span
+                className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill fw-bold fs-6"
                 style={{ background: '#eef2ff', color: '#4f46e5', border: '1px solid #c7d2fe' }}
               >
                 ⚡ Enterprise AWS Ready Platform
-              </Badge>
+              </span>
             </div>
 
             <h1
               className="fw-extrabold mb-3"
-              style={{ color: '#0f172a', letterSpacing: '-1.5px', lineHeight: 1.18, fontSize: '2.75rem' }}
+              style={{ color: '#0f172a', letterSpacing: '-1.5px', lineHeight: 1.18, fontSize: '2.8rem' }}
             >
               Enterprise IT Support & Ticket Engine Built for Speed
             </h1>
@@ -69,15 +67,15 @@ export const Home = () => {
             </div>
           </Col>
 
-          {/* Hero Live Widget Card */}
-          <Col lg={5}>
-            <Card className="glass-card p-4 shadow-lg border-0" style={{ background: '#ffffff' }}>
+          {/* Hero Live Widget Card - Balanced Right Side */}
+          <Col lg={6}>
+            <Card className="glass-card p-4 shadow-lg border-0 w-100" style={{ background: '#ffffff' }}>
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="d-flex align-items-center gap-2">
                   <div className="p-2 rounded-circle" style={{ background: '#eef2ff' }}>
-                    <Ticket size={24} style={{ color: '#4f46e5' }} />
+                    <Ticket size={26} style={{ color: '#4f46e5' }} />
                   </div>
-                  <span className="fw-bold fs-5" style={{ color: '#0f172a' }}>TicketDesk Live</span>
+                  <span className="fw-bold fs-5" style={{ color: '#0f172a' }}>TicketDesk Live Portal</span>
                 </div>
                 <span className="badge badge-status-open">SYSTEM HEALTH 100%</span>
               </div>
@@ -95,20 +93,20 @@ export const Home = () => {
               <Row className="g-2 text-center">
                 <Col xs={4}>
                   <div className="p-3 rounded-3" style={{ background: '#f0f9ff', border: '1px solid #bae6fd' }}>
-                    <span className="fs-4 fw-extrabold d-block" style={{ color: '#0284c7' }}>99.8%</span>
-                    <small className="fw-bold" style={{ color: '#0369a1', fontSize: '0.75rem' }}>SLA Compliance</small>
+                    <span className="fs-3 fw-extrabold d-block" style={{ color: '#0284c7' }}>99.8%</span>
+                    <small className="fw-bold" style={{ color: '#0369a1', fontSize: '0.8rem' }}>SLA Compliance</small>
                   </div>
                 </Col>
                 <Col xs={4}>
                   <div className="p-3 rounded-3" style={{ background: '#ecfdf5', border: '1px solid #a7f3d0' }}>
-                    <span className="fs-4 fw-extrabold d-block" style={{ color: '#059669' }}>&lt; 2.4h</span>
-                    <small className="fw-bold" style={{ color: '#047857', fontSize: '0.75rem' }}>Avg Resolution</small>
+                    <span className="fs-3 fw-extrabold d-block" style={{ color: '#059669' }}>&lt; 2.4h</span>
+                    <small className="fw-bold" style={{ color: '#047857', fontSize: '0.8rem' }}>Avg Resolution</small>
                   </div>
                 </Col>
                 <Col xs={4}>
                   <div className="p-3 rounded-3" style={{ background: '#fef3c7', border: '1px solid #fde68a' }}>
-                    <span className="fs-4 fw-extrabold d-block" style={{ color: '#d97706' }}>AWS S3</span>
-                    <small className="fw-bold" style={{ color: '#b45309', fontSize: '0.75rem' }}>Pre-signed Uploads</small>
+                    <span className="fs-3 fw-extrabold d-block" style={{ color: '#d97706' }}>AWS S3</span>
+                    <small className="fw-bold" style={{ color: '#b45309', fontSize: '0.8rem' }}>Pre-signed Uploads</small>
                   </div>
                 </Col>
               </Row>
@@ -117,8 +115,8 @@ export const Home = () => {
         </Row>
       </Container>
 
-      {/* Feature Showcase Grid - 6 Complete Enterprise Cards */}
-      <Container className="py-5">
+      {/* Feature Showcase Grid - Balanced 6 Cards */}
+      <Container fluid="xl" className="px-4 px-lg-5 py-5">
         <div className="text-center max-w-3xl mx-auto mb-5">
           <h2 className="fw-extrabold mb-2" style={{ color: '#0f172a', fontSize: '2.2rem' }}>
             Built for Modern Enterprise IT Operations

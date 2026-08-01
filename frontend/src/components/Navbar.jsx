@@ -20,9 +20,9 @@ export const AppNavbar = () => {
   return (
     <>
       <Navbar expand="lg" className="navbar-custom sticky-top py-2 px-3">
-        <Container fluid>
+        <Container fluid="xl" className="px-4">
           <Navbar.Brand as={Link} to={user ? '/dashboard' : '/'} className="d-flex align-items-center gap-2 text-decoration-none">
-            <div className="p-2 rounded-circle" style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}>
+            <div className="p-2 rounded-circle" style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}>
               <Ticket className="text-white" size={24} />
             </div>
             <span className="navbar-brand-gradient">TicketDesk</span>
@@ -31,13 +31,13 @@ export const AppNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-secondary" />
 
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto align-items-center gap-3">
+            <Nav className="ms-auto align-items-center gap-2">
               {user ? (
                 <>
                   {/* Notifications Dropdown */}
                   <NavDropdown
                     title={
-                      <div className="position-relative d-inline-block p-1 text-light">
+                      <div className="position-relative d-inline-block p-1 text-secondary">
                         <Bell size={22} />
                         {unreadCount > 0 && (
                           <Badge
@@ -71,9 +71,9 @@ export const AppNavbar = () => {
                             markAsRead(n.id);
                             if (n.referenceId) navigate(`/tickets/${n.referenceId}`);
                           }}
-                          className={`p-2 border-bottom ${!n.read ? 'bg-dark bg-opacity-50' : ''}`}
+                          className={`p-2 border-bottom ${!n.read ? 'bg-light' : ''}`}
                         >
-                          <div className="fw-semibold text-truncate text-white" style={{ maxWidth: '250px' }}>{n.title}</div>
+                          <div className="fw-semibold text-truncate text-dark" style={{ maxWidth: '250px' }}>{n.title}</div>
                           <small className="text-muted d-block text-truncate" style={{ maxWidth: '250px' }}>{n.message}</small>
                         </NavDropdown.Item>
                       ))
@@ -83,14 +83,14 @@ export const AppNavbar = () => {
                   {/* Profile & User Dropdown */}
                   <NavDropdown
                     title={
-                      <div className="d-flex align-items-center gap-2 text-light">
+                      <div className="d-flex align-items-center gap-2 text-dark">
                         <div
-                          className="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold shadow"
-                          style={{ width: 36, height: 36, background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}
+                          className="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold shadow-sm"
+                          style={{ width: 36, height: 36, background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}
                         >
                           {user.firstName ? user.firstName.charAt(0) : 'U'}
                         </div>
-                        <span className="fw-bold d-none d-md-inline text-white">{user.firstName} {user.lastName}</span>
+                        <span className="fw-bold d-none d-md-inline" style={{ color: '#0f172a' }}>{user.firstName} {user.lastName}</span>
                       </div>
                     }
                     id="user-dropdown"
@@ -114,18 +114,18 @@ export const AppNavbar = () => {
                   </NavDropdown>
                 </>
               ) : (
-                <>
+                <div className="d-flex align-items-center gap-2">
                   <Button
                     onClick={() => setShowLoginModal(true)}
-                    variant="link"
-                    className="text-white fw-bold text-decoration-none d-flex align-items-center gap-1"
+                    variant="outline-indigo"
+                    className="px-3 py-2 d-flex align-items-center gap-1 fw-bold"
                   >
                     <LogIn size={18} /> Sign In
                   </Button>
-                  <Button as={Link} to="/register" className="btn-indigo px-4 py-2">
+                  <Button as={Link} to="/register" className="btn-indigo px-4 py-2 fw-bold">
                     Register
                   </Button>
-                </>
+                </div>
               )}
             </Nav>
           </Navbar.Collapse>
