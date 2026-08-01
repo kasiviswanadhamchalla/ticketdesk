@@ -72,6 +72,7 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
+            <version>10.10.0</version>
         </dependency>
 
         <!-- JWT Authentication -->
@@ -101,6 +102,7 @@
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3-presigner</artifactId>
+            <version>${aws.sdk.version}</version>
         </dependency>
 
         <!-- Lombok & MapStruct -->
