@@ -9,8 +9,8 @@ import { UserPlus, Ticket } from 'lucide-react';
 
 const RegisterSchema = Yup.object().shape({
   username: Yup.string().min(3, 'Minimum 3 characters').required('Username is required'),
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().min(6, 'Minimum 6 characters').required('Password is required'),
+  email: Yup.string().email('Invalid email address').required('Email is required'),
+  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   firstName: Yup.string().required('First name is required'),
   lastName: Yup.string().required('Last name is required'),
 });
@@ -41,16 +41,16 @@ export const Register = () => {
 
   return (
     <Container className="d-flex align-items-center justify-content-center min-vh-100 py-5">
-      <Card className="glass-card p-4 p-md-5" style={{ maxWidth: '540px', width: '100%' }}>
+      <Card className="glass-card p-4 p-md-5" style={{ maxWidth: '540px', width: '100%', background: '#ffffff' }}>
         <div className="text-center mb-4">
-          <div className="d-inline-flex p-3 rounded-circle mb-3 shadow-lg" style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}>
+          <div className="d-inline-flex p-3 rounded-circle mb-3 shadow-md" style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}>
             <Ticket size={40} className="text-white" />
           </div>
-          <h2 className="fw-bold text-white mb-2" style={{ letterSpacing: '-0.5px' }}>Create an Account</h2>
-          <p className="text-slate-300 fs-6 mb-0" style={{ color: '#cbd5e1' }}>Join TicketDesk IT Support Portal</p>
+          <h2 className="fw-bold mb-1" style={{ color: '#0f172a', letterSpacing: '-0.5px' }}>Create an Account</h2>
+          <p className="fs-6 mb-0" style={{ color: '#475569' }}>Join TicketDesk IT Support Portal</p>
         </div>
 
-        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+        {errorMessage && <Alert variant="danger" dismissible onClose={() => setErrorMessage('')}>{errorMessage}</Alert>}
         {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
         <Formik
@@ -58,8 +58,8 @@ export const Register = () => {
           validationSchema={RegisterSchema}
           onSubmit={handleSubmit}
         >
-          {({ handleSubmit, handleChange, values, errors, touched, isSubmitting }) => (
-            <Form onSubmit={handleSubmit}>
+          {({ handleSubmit, handleChange, handleBlur, values, errors, touched, isSubmitting }) => (
+            <Form onSubmit={handleSubmit} noValidate>
               <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3">
@@ -67,12 +67,14 @@ export const Register = () => {
                     <Form.Control
                       type="text"
                       name="firstName"
+                      placeholder="e.g. John"
                       value={values.firstName}
                       onChange={handleChange}
+                      onBlur={handleBlur}
                       isInvalid={touched.firstName && !!errors.firstName}
                       className="form-control-dark"
                     />
-                    <Form.Control.Feedback type="invalid">{errors.firstName}</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid" className="fw-semibold">{errors.firstName}</Form.Control.Feedback>
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -81,12 +83,14 @@ export const Register = () => {
                     <Form.Control
                       type="text"
                       name="lastName"
+                      placeholder="e.g. Doe"
                       value={values.lastName}
                       onChange={handleChange}
+                      onBlur={handleBlur}
                       isInvalid={touched.lastName && !!errors.lastName}
                       className="form-control-dark"
                     />
-                    <Form.Control.Feedback type="invalid">{errors.lastName}</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid" className="fw-semibold">{errors.lastName}</Form.Control.Feedback>
                   </Form.Group>
                 </Col>
               </Row>
@@ -96,12 +100,14 @@ export const Register = () => {
                 <Form.Control
                   type="text"
                   name="username"
+                  placeholder="e.g. john.doe"
                   value={values.username}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   isInvalid={touched.username && !!errors.username}
                   className="form-control-dark"
                 />
-                <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid" className="fw-semibold">{errors.username}</Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -109,12 +115,14 @@ export const Register = () => {
                 <Form.Control
                   type="email"
                   name="email"
+                  placeholder="e.g. john@ticketdesk.com"
                   value={values.email}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   isInvalid={touched.email && !!errors.email}
                   className="form-control-dark"
                 />
-                <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid" className="fw-semibold">{errors.email}</Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-4">
@@ -122,12 +130,14 @@ export const Register = () => {
                 <Form.Control
                   type="password"
                   name="password"
+                  placeholder="••••••••"
                   value={values.password}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   isInvalid={touched.password && !!errors.password}
                   className="form-control-dark"
                 />
-                <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid" className="fw-semibold">{errors.password}</Form.Control.Feedback>
               </Form.Group>
 
               <Button type="submit" disabled={isSubmitting} className="btn-indigo w-100 py-3 d-flex align-items-center justify-content-center gap-2 mb-3 fs-6">
@@ -137,9 +147,9 @@ export const Register = () => {
           )}
         </Formik>
 
-        <div className="text-center mt-2 pt-3 border-top border-secondary border-opacity-25 fs-6" style={{ color: '#cbd5e1' }}>
+        <div className="text-center mt-2 pt-3 border-top border-light fs-6" style={{ color: '#334155' }}>
           Already have an account?{' '}
-          <Link to="/login" className="fw-bold text-decoration-none" style={{ color: '#c084fc' }}>
+          <Link to="/login" className="fw-bold text-decoration-none" style={{ color: '#4f46e5' }}>
             Sign In
           </Link>
         </div>
