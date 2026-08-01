@@ -1,0 +1,5 @@
+project_name = "ticketdesk"
+environment  = "prod"
+aws_region   = "us-east-1"
+db_password  = "ProdSecretPassword123!"
+jwt_secret   = "9a4f2c8d7e1b5a3c9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c7b6a"
