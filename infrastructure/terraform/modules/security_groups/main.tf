@@ -58,16 +58,16 @@ resource "aws_security_group" "ecs_tasks" {
   })
 }
 
-# RDS PostgreSQL Security Group
+# RDS MySQL Security Group
 resource "aws_security_group" "rds" {
   name        = "${var.project_name}-${var.environment}-rds-sg"
-  description = "Security group for RDS PostgreSQL DB Instance"
+  description = "Security group for RDS MySQL DB Instance"
   vpc_id      = var.vpc_id
 
   ingress {
-    description     = "PostgreSQL from ECS Tasks"
-    from_port       = 5432
-    to_port         = 5432
+    description     = "MySQL Traffic from ECS Tasks"
+    from_port       = 3306
+    to_port         = 3306
     protocol        = "tcp"
     security_groups = [aws_security_group.ecs_tasks.id]
   }

@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "backend" {
       ]
 
       environment = [
-        { name = "SPRING_DATASOURCE_URL", value = "jdbc:postgresql://${var.db_endpoint}/${var.db_name}" },
+        { name = "SPRING_DATASOURCE_URL", value = "jdbc:mysql://${var.db_endpoint}:3306/${var.db_name}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC" },
         { name = "SPRING_DATASOURCE_USERNAME", value = var.db_username },
         { name = "AWS_REGION", value = var.aws_region },
         { name = "AWS_S3_ATTACHMENT_BUCKET", value = var.attachment_bucket_name }

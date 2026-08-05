@@ -1,17 +1,17 @@
 resource "aws_db_subnet_group" "main" {
   name        = "${var.project_name}-${var.environment}-db-subnet-group"
   subnet_ids  = var.private_subnet_ids
-  description = "DB Subnet group for private RDS PostgreSQL"
+  description = "DB Subnet group for private RDS MySQL"
 
   tags = merge(var.tags, {
     Name = "${var.project_name}-${var.environment}-db-subnet-group"
   })
 }
 
-resource "aws_db_instance" "postgres" {
-  identifier             = "${var.project_name}-${var.environment}-postgres"
-  engine                 = "postgres"
-  engine_version         = "16.2"
+resource "aws_db_instance" "mysql" {
+  identifier             = "${var.project_name}-${var.environment}-mysql"
+  engine                 = "mysql"
+  engine_version         = "8.0"
   instance_class         = var.db_instance_class
   allocated_storage      = var.allocated_storage
   max_allocated_storage  = 100
@@ -25,8 +25,9 @@ resource "aws_db_instance" "postgres" {
   publicly_accessible    = false
   skip_final_snapshot    = true
   deletion_protection    = false
+  parameter_group_name   = "default.mysql8.0"
 
   tags = merge(var.tags, {
-    Name = "${var.project_name}-${var.environment}-postgres"
+    Name = "${var.project_name}-${var.environment}-mysql"
   })
 }

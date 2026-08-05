@@ -1,15 +1,15 @@
 output "db_instance_endpoint" {
-  value = aws_db_instance.postgres.endpoint
+  value = aws_db_instance.mysql.endpoint
 }
 
 output "db_instance_address" {
-  value = aws_db_instance.postgres.address
+  value = aws_db_instance.mysql.address
 }
 
 output "db_instance_port" {
-  value = aws_db_instance.postgres.port
+  value = aws_db_instance.mysql.port
 }
 
 output "db_name" {
-  value = aws_db_instance.postgres.db_name
+  value = aws_db_instance.mysql.db_name
 }

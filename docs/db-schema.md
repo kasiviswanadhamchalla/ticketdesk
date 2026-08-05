@@ -1,6 +1,6 @@
-# TicketDesk Database Schema Specification
+# TicketDesk Database Schema (MySQL 8.0)
 
-PostgreSQL 16 Relational Schema managed via Flyway Migrations (`V1__init_schema.sql`, `V2__seed_data.sql`).
+This document describes the relational database schema managed by **Flyway SQL Migrations** on **MySQL 8.0** / **Amazon RDS MySQL**.
 
 ---
 

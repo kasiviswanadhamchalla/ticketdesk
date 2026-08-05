@@ -48,7 +48,7 @@ graph TD
 
 ### Infrastructure & Cloud
 - **Docker & Docker Compose** (Multi-stage non-root container builds)
-- **Terraform (IaC)** (Modules for VPC, ALB, ECS Fargate, ECR, RDS PostgreSQL, S3, CloudFront, Secrets Manager, Parameter Store, IAM, Lambda, CloudWatch)
+- **Terraform (IaC)** (Modules for VPC, ALB, ECS Fargate, ECR, RDS MySQL 8.0, S3, CloudFront, Secrets Manager, Parameter Store, IAM, Lambda, CloudWatch)
 - **GitHub Actions** (Automated linting, secret scanning, Maven tests, Docker build/push, Terraform plan/apply, rolling ECS deployment, and smoke tests)
 
 ---
