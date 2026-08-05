@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: TicketDeskSecurePassword123!
       MYSQL_ROOT_PASSWORD: RootSecurePassword123!
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysqldata:/var/lib/mysql
     healthcheck:
