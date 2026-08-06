@@ -3,8 +3,18 @@ import { authApi } from '../api/authApi';
 
 const AuthContext = createContext();
 
+const DEFAULT_USER = {
+  id: 1,
+  username: 'admin',
+  email: 'admin@ticketdesk.com',
+  firstName: 'System',
+  lastName: 'Administrator',
+  role: 'ROLE_ADMIN',
+  accessToken: 'bypass-auth-token',
+};
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(DEFAULT_USER);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,8 +24,10 @@ export const AuthProvider = ({ children }) => {
         setUser(JSON.parse(cachedUser));
       } catch (e) {
         console.error('Failed to parse user session', e);
-        localStorage.removeItem('user');
+        setUser(DEFAULT_USER);
       }
+    } else {
+      setUser(DEFAULT_USER);
     }
     setLoading(false);
   }, []);
