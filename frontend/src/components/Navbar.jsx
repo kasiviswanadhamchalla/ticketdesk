@@ -83,15 +83,15 @@ export const AppNavbar = () => {
                   {/* Profile & User Dropdown */}
                   <NavDropdown
                     title={
-                      <div className="d-flex align-items-center gap-2 text-dark">
-                        <div
-                          className="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold shadow-sm"
+                      <span className="d-inline-flex align-items-center gap-2 text-dark">
+                        <span
+                          className="rounded-circle text-white d-inline-flex align-items-center justify-content-center fw-bold shadow-sm"
                           style={{ width: 36, height: 36, background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}
                         >
                           {user.firstName ? user.firstName.charAt(0) : 'U'}
-                        </div>
+                        </span>
                         <span className="fw-bold d-none d-md-inline" style={{ color: '#0f172a' }}>{user.firstName} {user.lastName}</span>
-                      </div>
+                      </span>
                     }
                     id="user-dropdown"
                     align="end"
