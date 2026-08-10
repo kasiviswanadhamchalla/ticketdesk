@@ -179,6 +179,47 @@ body {
   font-weight: 700;
 }
 
+/* Priority Badges - High Contrast & Crisp Visibility */
+.badge-prio-low {
+  background-color: #d1fae5 !important;
+  color: #047857 !important;
+  border: 1px solid #a7f3d0 !important;
+  font-weight: 700 !important;
+  border-radius: 6px;
+  padding: 0.35em 0.75em;
+  font-size: 0.75rem;
+}
+
+.badge-prio-medium {
+  background-color: #dbeafe !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
+  font-weight: 700 !important;
+  border-radius: 6px;
+  padding: 0.35em 0.75em;
+  font-size: 0.75rem;
+}
+
+.badge-prio-high {
+  background-color: #fef3c7 !important;
+  color: #b45309 !important;
+  border: 1px solid #fde68a !important;
+  font-weight: 700 !important;
+  border-radius: 6px;
+  padding: 0.35em 0.75em;
+  font-size: 0.75rem;
+}
+
+.badge-prio-urgent {
+  background-color: #fee2e2 !important;
+  color: #b91c1c !important;
+  border: 1px solid #fca5a5 !important;
+  font-weight: 700 !important;
+  border-radius: 6px;
+  padding: 0.35em 0.75em;
+  font-size: 0.75rem;
+}
+
 /* Sidebar Navigation */
 .sidebar-link {
   display: flex;

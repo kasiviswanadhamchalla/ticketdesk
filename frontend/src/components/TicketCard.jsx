@@ -11,17 +11,12 @@ export const TicketCard = ({ ticket }) => {
 
   const getPriorityBadge = (priority) => {
     if (!priority) return null;
+    const prioKey = priority.name.toLowerCase();
+    const prioClass = `badge-prio-${prioKey}`;
     return (
-      <Badge
-        style={{
-          backgroundColor: `${priority.colorCode}25`,
-          color: priority.colorCode,
-          border: `1px solid ${priority.colorCode}60`,
-        }}
-        className="px-2 py-1"
-      >
+      <span className={`badge ${prioClass}`}>
         {priority.name}
-      </Badge>
+      </span>
     );
   };
 

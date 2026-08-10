@@ -94,9 +94,9 @@ export const TicketDetail = () => {
                 {ticket.status.replace('_', ' ')}
               </span>
               {ticket.priority && (
-                <Badge style={{ backgroundColor: `${ticket.priority.colorCode}20`, color: ticket.priority.colorCode, border: `1px solid ${ticket.priority.colorCode}`, fontWeight: '700' }}>
+                <span className={`badge badge-prio-${ticket.priority.name.toLowerCase()}`}>
                   {ticket.priority.name} Priority
-                </Badge>
+                </span>
               )}
             </div>
             <h3 className="fw-bold mb-2" style={{ color: '#0f172a' }}>{ticket.title}</h3>
