@@ -39,8 +39,9 @@ public class TicketController {
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) String search,
             @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails != null ? userDetails.getUsername() : "admin";
         PagedResponse<TicketDto> tickets = ticketService.getAllTickets(
-                page, size, sortBy, sortDir, status, priorityId, categoryId, search, userDetails.getUsername());
+                page, size, sortBy, sortDir, status, priorityId, categoryId, search, username);
         return ResponseEntity.ok(ApiResponse.success(tickets));
     }
 

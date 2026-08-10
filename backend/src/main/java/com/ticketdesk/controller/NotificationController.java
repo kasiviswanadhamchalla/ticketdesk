@@ -24,18 +24,27 @@ public class NotificationController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.ok(ApiResponse.success(PagedResponse.<NotificationDto>builder().content(List.of()).page(0).size(size).totalElements(0L).totalPages(0).last(true).build()));
+        }
         PagedResponse<NotificationDto> notifications = notificationService.getUserNotifications(userDetails.getUsername(), page, size);
         return ResponseEntity.ok(ApiResponse.success(notifications));
     }
 
     @GetMapping("/unread")
     public ResponseEntity<ApiResponse<List<NotificationDto>>> getUnreadNotifications(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.ok(ApiResponse.success(List.of()));
+        }
         List<NotificationDto> unread = notificationService.getUnreadNotifications(userDetails.getUsername());
         return ResponseEntity.ok(ApiResponse.success(unread));
     }
 
     @GetMapping("/unread-count")
     public ResponseEntity<ApiResponse<Long>> getUnreadCount(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.ok(ApiResponse.success(0L));
+        }
         long count = notificationService.getUnreadCount(userDetails.getUsername());
         return ResponseEntity.ok(ApiResponse.success(count));
     }
