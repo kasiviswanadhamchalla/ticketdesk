@@ -58,14 +58,14 @@ export const CreateTicket = () => {
 
   return (
     <div className="p-3 p-md-4 max-w-4xl mx-auto">
-      <Button variant="link" onClick={() => navigate(-1)} className="text-slate-300 text-decoration-none p-0 mb-3 d-flex align-items-center gap-1">
+      <Button variant="link" onClick={() => navigate(-1)} className="text-decoration-none p-0 mb-3 d-flex align-items-center gap-1 fw-bold" style={{ color: '#4f46e5' }}>
         <ArrowLeft size={16} /> Back to Tickets
       </Button>
 
       <Card className="glass-card p-4 p-md-5">
         <div className="mb-4">
-          <h3 className="fw-bold text-white mb-1">Create Support Ticket</h3>
-          <p className="text-slate-300 small mb-0" style={{ color: '#cbd5e1' }}>Submit an issue or request to the IT engineering team</p>
+          <h3 className="fw-bold text-dark mb-1">Create Support Ticket</h3>
+          <p className="small mb-0" style={{ color: '#475569' }}>Submit an issue or request to the IT engineering team</p>
         </div>
 
         {error && <Alert variant="danger">{error}</Alert>}

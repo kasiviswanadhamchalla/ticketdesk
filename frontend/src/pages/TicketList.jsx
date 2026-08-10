@@ -76,8 +76,8 @@ export const TicketList = () => {
     <div className="p-3 p-md-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h2 className="fw-bold text-white mb-1">Ticket Directory</h2>
-          <p className="text-slate-300 small mb-0" style={{ color: '#cbd5e1' }}>Search, filter, and manage support tickets</p>
+          <h2 className="fw-bold text-dark mb-1">Ticket Directory</h2>
+          <p className="small mb-0" style={{ color: '#475569' }}>Search, filter, and manage support tickets</p>
         </div>
       </div>
 
@@ -87,7 +87,7 @@ export const TicketList = () => {
           <Col md={4}>
             <Form onSubmit={handleSearchSubmit}>
               <InputGroup>
-                <InputGroup.Text className="bg-dark border-secondary border-opacity-25 text-muted">
+                <InputGroup.Text className="bg-light border-secondary border-opacity-25 text-secondary">
                   <Search size={18} />
                 </InputGroup.Text>
                 <Form.Control

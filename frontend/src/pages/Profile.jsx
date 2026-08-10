@@ -44,8 +44,8 @@ export const Profile = () => {
   return (
     <div className="p-3 p-md-4">
       <div className="mb-4">
-        <h2 className="fw-bold text-white mb-1">User Profile</h2>
-        <p className="text-slate-300 small mb-0" style={{ color: '#cbd5e1' }}>Manage your account information and security credentials</p>
+        <h2 className="fw-bold text-dark mb-1">User Profile</h2>
+        <p className="small mb-0" style={{ color: '#475569' }}>Manage your account information and security credentials</p>
       </div>
 
       <Row className="g-4">
@@ -53,27 +53,27 @@ export const Profile = () => {
           <Card className="glass-card p-4 text-center">
             <div
               className="rounded-circle text-white d-inline-flex align-items-center justify-content-center fw-bold mx-auto mb-3 shadow-lg"
-              style={{ width: 84, height: 84, fontSize: '2.2rem', background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}
+              style={{ width: 84, height: 84, fontSize: '2.2rem', background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}
             >
               {user?.firstName ? user.firstName.charAt(0) : 'U'}
             </div>
-            <h4 className="fw-bold text-white mb-1">{user?.firstName} {user?.lastName}</h4>
-            <p className="text-slate-300 small mb-3" style={{ color: '#cbd5e1' }}>@{user?.username}</p>
-            <Badge bg="indigo" className="px-3 py-2 fs-6 mb-3" style={{ background: '#6366f1' }}>
+            <h4 className="fw-bold text-dark mb-1">{user?.firstName} {user?.lastName}</h4>
+            <p className="small mb-3" style={{ color: '#475569' }}>@{user?.username}</p>
+            <Badge bg="indigo" className="px-3 py-2 fs-6 mb-3" style={{ background: '#4f46e5' }}>
               {user?.role?.replace('ROLE_', '')}
             </Badge>
 
-            <div className="text-start border-top border-secondary border-opacity-25 pt-3 mt-2 small" style={{ color: '#cbd5e1' }}>
-              <div className="mb-2"><strong>Email:</strong> {user?.email}</div>
-              <div className="mb-2"><strong>Account Status:</strong> <span className="text-success fw-bold">Active</span></div>
+            <div className="text-start border-top border-slate-200 pt-3 mt-2 small" style={{ color: '#334155' }}>
+              <div className="mb-2"><strong style={{ color: '#0f172a' }}>Email:</strong> {user?.email}</div>
+              <div className="mb-2"><strong style={{ color: '#0f172a' }}>Account Status:</strong> <span className="text-success fw-bold">Active</span></div>
             </div>
           </Card>
         </Col>
 
         <Col md={7}>
           <Card className="glass-card p-4">
-            <h5 className="fw-bold text-white mb-3 d-flex align-items-center gap-2">
-              <Lock size={20} className="text-indigo-400" /> Change Security Password
+            <h5 className="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+              <Lock size={20} style={{ color: '#4f46e5' }} /> Change Security Password
             </h5>
 
             {success && <Alert variant="success">{success}</Alert>}

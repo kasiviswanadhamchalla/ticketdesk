@@ -112,10 +112,10 @@ export const AdminPanel = () => {
   return (
     <div className="p-3 p-md-4">
       <div className="mb-4">
-        <h2 className="fw-bold text-white mb-1 d-flex align-items-center gap-2">
-          <Shield size={30} style={{ color: '#c084fc' }} /> Admin Control Center
+        <h2 className="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+          <Shield size={30} style={{ color: '#4f46e5' }} /> Admin Control Center
         </h2>
-        <p className="text-slate-300 small mb-0" style={{ color: '#cbd5e1' }}>System configurations, user role management, and SLA target definitions</p>
+        <p className="small mb-0" style={{ color: '#475569' }}>System configurations, user role management, and SLA target definitions</p>
       </div>
 
       {msg && <Alert variant="success" dismissible onClose={() => setMsg('')}>{msg}</Alert>}
@@ -138,8 +138,8 @@ export const AdminPanel = () => {
                 {users.map((u) => (
                   <tr key={u.id}>
                     <td>
-                      <div className="fw-bold text-white">{u.firstName} {u.lastName}</div>
-                      <small className="text-muted">@{u.username}</small>
+                      <div className="fw-bold text-dark">{u.firstName} {u.lastName}</div>
+                      <small style={{ color: '#64748b' }}>@{u.username}</small>
                     </td>
                     <td>{u.email}</td>
                     <td>
@@ -180,7 +180,7 @@ export const AdminPanel = () => {
         <Tab eventKey="categories" title={<span className="d-flex align-items-center gap-2 fw-bold"><Tag size={18} /> Categories</span>}>
           <Card className="glass-card p-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5 className="text-white fw-bold mb-0">Ticket Categories</h5>
+              <h5 className="text-dark fw-bold mb-0">Ticket Categories</h5>
               <Button className="btn-indigo btn-sm d-flex align-items-center gap-1" onClick={() => setShowCatModal(true)}>
                 <Plus size={16} /> Add Category
               </Button>
@@ -197,8 +197,8 @@ export const AdminPanel = () => {
                 {categories.map((c) => (
                   <tr key={c.id}>
                     <td>{c.id}</td>
-                    <td className="fw-bold text-white">{c.name}</td>
-                    <td className="text-slate-300" style={{ color: '#cbd5e1' }}>{c.description}</td>
+                    <td className="fw-bold text-dark">{c.name}</td>
+                    <td style={{ color: '#475569' }}>{c.description}</td>
                   </tr>
                 ))}
               </tbody>
@@ -210,7 +210,7 @@ export const AdminPanel = () => {
         <Tab eventKey="priorities" title={<span className="d-flex align-items-center gap-2 fw-bold"><AlertTriangle size={18} /> Priorities & SLA</span>}>
           <Card className="glass-card p-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5 className="text-white fw-bold mb-0">Priority Levels & SLA Target Hours</h5>
+              <h5 className="text-dark fw-bold mb-0">Priority Levels & SLA Target Hours</h5>
               <Button className="btn-indigo btn-sm d-flex align-items-center gap-1" onClick={() => setShowPrioModal(true)}>
                 <Plus size={16} /> Add Priority
               </Button>
@@ -229,15 +229,15 @@ export const AdminPanel = () => {
                 {priorities.map((p) => (
                   <tr key={p.id}>
                     <td>{p.id}</td>
-                    <td className="fw-bold text-white">{p.name}</td>
+                    <td className="fw-bold text-dark">{p.name}</td>
                     <td><Badge bg="info" className="px-2 py-1">{p.slaHours} Hours</Badge></td>
                     <td>
                       <div className="d-flex align-items-center gap-2">
                         <div style={{ width: 18, height: 18, borderRadius: '50%', backgroundColor: p.colorCode }} />
-                        <code className="text-slate-300" style={{ color: '#cbd5e1' }}>{p.colorCode}</code>
+                        <code style={{ color: '#475569' }}>{p.colorCode}</code>
                       </div>
                     </td>
-                    <td className="text-slate-300" style={{ color: '#cbd5e1' }}>{p.description}</td>
+                    <td style={{ color: '#475569' }}>{p.description}</td>
                   </tr>
                 ))}
               </tbody>
@@ -248,10 +248,10 @@ export const AdminPanel = () => {
 
       {/* Add Category Modal */}
       <Modal show={showCatModal} onHide={() => setShowCatModal(false)} centered className="modal-dark">
-        <Modal.Header closeButton className="bg-dark text-white border-secondary">
-          <Modal.Title>Add New Category</Modal.Title>
+        <Modal.Header closeButton className="bg-white text-dark border-slate-200">
+          <Modal.Title className="fw-bold" style={{ color: '#0f172a' }}>Add New Category</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="bg-dark text-white">
+        <Modal.Body className="bg-white text-dark">
           <Form.Group className="mb-3">
             <Form.Label className="form-label">Category Name</Form.Label>
             <Form.Control type="text" value={catName} onChange={(e) => setCatName(e.target.value)} className="form-control-dark" />
@@ -261,7 +261,7 @@ export const AdminPanel = () => {
             <Form.Control as="textarea" rows={3} value={catDesc} onChange={(e) => setCatDesc(e.target.value)} className="form-control-dark" />
           </Form.Group>
         </Modal.Body>
-        <Modal.Footer className="bg-dark border-secondary">
+        <Modal.Footer className="bg-white border-slate-200">
           <Button variant="outline-secondary" onClick={() => setShowCatModal(false)}>Cancel</Button>
           <Button className="btn-indigo" onClick={handleAddCategory}>Save Category</Button>
         </Modal.Footer>
@@ -269,10 +269,10 @@ export const AdminPanel = () => {
 
       {/* Add Priority Modal */}
       <Modal show={showPrioModal} onHide={() => setShowPrioModal(false)} centered className="modal-dark">
-        <Modal.Header closeButton className="bg-dark text-white border-secondary">
-          <Modal.Title>Add Priority & SLA</Modal.Title>
+        <Modal.Header closeButton className="bg-white text-dark border-slate-200">
+          <Modal.Title className="fw-bold" style={{ color: '#0f172a' }}>Add Priority & SLA</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="bg-dark text-white">
+        <Modal.Body className="bg-white text-dark">
           <Form.Group className="mb-3">
             <Form.Label className="form-label">Priority Name</Form.Label>
             <Form.Control type="text" value={prioName} onChange={(e) => setPrioName(e.target.value)} className="form-control-dark" />
@@ -290,7 +290,7 @@ export const AdminPanel = () => {
             <Form.Control as="textarea" rows={2} value={prioDesc} onChange={(e) => setPrioDesc(e.target.value)} className="form-control-dark" />
           </Form.Group>
         </Modal.Body>
-        <Modal.Footer className="bg-dark border-secondary">
+        <Modal.Footer className="bg-white border-slate-200">
           <Button variant="outline-secondary" onClick={() => setShowPrioModal(false)}>Cancel</Button>
           <Button className="btn-indigo" onClick={handleAddPriority}>Save Priority</Button>
         </Modal.Footer>

@@ -49,8 +49,8 @@ export const Dashboard = () => {
     <div className="p-3 p-md-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h2 className="fw-bold text-white mb-1">Support Operational Dashboard</h2>
-          <p className="text-slate-300 small mb-0" style={{ color: '#cbd5e1' }}>Real-time IT ticket analytics, SLA tracking, and resolution metrics</p>
+          <h2 className="fw-bold text-dark mb-1">Support Operational Dashboard</h2>
+          <p className="small mb-0" style={{ color: '#475569' }}>Real-time IT ticket analytics, SLA tracking, and resolution metrics</p>
         </div>
         <Link to="/tickets/create" className="btn btn-indigo d-flex align-items-center gap-2">
           <PlusCircle size={18} /> New Ticket
@@ -63,25 +63,11 @@ export const Dashboard = () => {
           <Card className="glass-card p-3">
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <span className="small fw-bold d-block mb-1" style={{ color: '#94a3b8' }}>TOTAL TICKETS</span>
-                <span className="fs-2 fw-extrabold text-white">{stats?.totalTickets || 0}</span>
+                <span className="small fw-bold d-block mb-1" style={{ color: '#475569' }}>TOTAL TICKETS</span>
+                <span className="fs-2 fw-extrabold text-dark">{stats?.totalTickets || 0}</span>
               </div>
-              <div className="p-3 rounded-4" style={{ background: 'rgba(99, 102, 241, 0.2)', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
-                <Ticket size={28} style={{ color: '#818cf8' }} />
-              </div>
-            </div>
-          </Card>
-        </Col>
-
-        <Col md={3} sm={6}>
-          <Card className="glass-card p-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <span className="small fw-bold d-block mb-1" style={{ color: '#94a3b8' }}>OPEN TICKETS</span>
-                <span className="fs-2 fw-extrabold" style={{ color: '#38bdf8' }}>{stats?.openTickets || 0}</span>
-              </div>
-              <div className="p-3 rounded-4" style={{ background: 'rgba(56, 189, 248, 0.2)', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
-                <AlertCircle size={28} style={{ color: '#38bdf8' }} />
+              <div className="p-3 rounded-4" style={{ background: 'rgba(99, 102, 241, 0.15)', border: '1px solid rgba(99, 102, 241, 0.25)' }}>
+                <Ticket size={28} style={{ color: '#4f46e5' }} />
               </div>
             </div>
           </Card>
@@ -91,11 +77,11 @@ export const Dashboard = () => {
           <Card className="glass-card p-3">
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <span className="small fw-bold d-block mb-1" style={{ color: '#94a3b8' }}>IN PROGRESS</span>
-                <span className="fs-2 fw-extrabold" style={{ color: '#fbbf24' }}>{stats?.inProgressTickets || 0}</span>
+                <span className="small fw-bold d-block mb-1" style={{ color: '#475569' }}>OPEN TICKETS</span>
+                <span className="fs-2 fw-extrabold" style={{ color: '#0284c7' }}>{stats?.openTickets || 0}</span>
               </div>
-              <div className="p-3 rounded-4" style={{ background: 'rgba(251, 191, 36, 0.2)', border: '1px solid rgba(251, 191, 36, 0.3)' }}>
-                <Clock size={28} style={{ color: '#fbbf24' }} />
+              <div className="p-3 rounded-4" style={{ background: 'rgba(2, 132, 199, 0.15)', border: '1px solid rgba(2, 132, 199, 0.25)' }}>
+                <AlertCircle size={28} style={{ color: '#0284c7' }} />
               </div>
             </div>
           </Card>
@@ -105,13 +91,27 @@ export const Dashboard = () => {
           <Card className="glass-card p-3">
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <span className="small fw-bold d-block mb-1" style={{ color: '#94a3b8' }}>RESOLVED / CLOSED</span>
-                <span className="fs-2 fw-extrabold" style={{ color: '#34d399' }}>
+                <span className="small fw-bold d-block mb-1" style={{ color: '#475569' }}>IN PROGRESS</span>
+                <span className="fs-2 fw-extrabold" style={{ color: '#d97706' }}>{stats?.inProgressTickets || 0}</span>
+              </div>
+              <div className="p-3 rounded-4" style={{ background: 'rgba(217, 119, 6, 0.15)', border: '1px solid rgba(217, 119, 6, 0.25)' }}>
+                <Clock size={28} style={{ color: '#d97706' }} />
+              </div>
+            </div>
+          </Card>
+        </Col>
+
+        <Col md={3} sm={6}>
+          <Card className="glass-card p-3">
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <span className="small fw-bold d-block mb-1" style={{ color: '#475569' }}>RESOLVED / CLOSED</span>
+                <span className="fs-2 fw-extrabold" style={{ color: '#059669' }}>
                   {(stats?.resolvedTickets || 0) + (stats?.closedTickets || 0)}
                 </span>
               </div>
-              <div className="p-3 rounded-4" style={{ background: 'rgba(52, 211, 153, 0.2)', border: '1px solid rgba(52, 211, 153, 0.3)' }}>
-                <CheckCircle2 size={28} style={{ color: '#34d399' }} />
+              <div className="p-3 rounded-4" style={{ background: 'rgba(5, 150, 105, 0.15)', border: '1px solid rgba(5, 150, 105, 0.25)' }}>
+                <CheckCircle2 size={28} style={{ color: '#059669' }} />
               </div>
             </div>
           </Card>
@@ -122,7 +122,7 @@ export const Dashboard = () => {
       <Row className="g-3 mb-4">
         <Col md={6}>
           <Card className="glass-card p-4 h-100">
-            <Card.Title className="text-white fw-bold fs-5 mb-3">Ticket Status Breakdown</Card.Title>
+            <Card.Title className="text-dark fw-bold fs-5 mb-3">Ticket Status Breakdown</Card.Title>
             <div style={{ width: '100%', height: 260 }}>
               <ResponsiveContainer>
                 <PieChart>
@@ -139,8 +139,8 @@ export const Dashboard = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ background: '#0f172a', borderColor: '#475569', borderRadius: 12, color: '#fff' }} />
-                  <Legend wrapperStyle={{ color: '#cbd5e1' }} />
+                  <Tooltip contentStyle={{ background: '#ffffff', borderColor: '#cbd5e1', borderRadius: 12, color: '#0f172a', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }} />
+                  <Legend wrapperStyle={{ color: '#334155', fontWeight: '600' }} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -149,14 +149,14 @@ export const Dashboard = () => {
 
         <Col md={6}>
           <Card className="glass-card p-4 h-100">
-            <Card.Title className="text-white fw-bold fs-5 mb-3">Priority Distribution (SLA Target)</Card.Title>
+            <Card.Title className="text-dark fw-bold fs-5 mb-3">Priority Distribution (SLA Target)</Card.Title>
             <div style={{ width: '100%', height: 260 }}>
               <ResponsiveContainer>
                 <BarChart data={priorityChartData}>
-                  <XAxis dataKey="name" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <Tooltip contentStyle={{ background: '#0f172a', borderColor: '#475569', borderRadius: 12, color: '#fff' }} />
-                  <Bar dataKey="value" fill="#c084fc" radius={[8, 8, 0, 0]} />
+                  <XAxis dataKey="name" stroke="#475569" fontWeight="600" />
+                  <YAxis stroke="#475569" fontWeight="600" />
+                  <Tooltip contentStyle={{ background: '#ffffff', borderColor: '#cbd5e1', borderRadius: 12, color: '#0f172a', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }} />
+                  <Bar dataKey="value" fill="#7c3aed" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -167,8 +167,8 @@ export const Dashboard = () => {
       {/* Recent Tickets Table */}
       <Card className="glass-card p-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="text-white fw-bold mb-0">Recent Support Requests</h5>
-          <Link to="/tickets" className="d-flex align-items-center gap-1 text-decoration-none small fw-bold" style={{ color: '#c084fc' }}>
+          <h5 className="text-dark fw-bold mb-0">Recent Support Requests</h5>
+          <Link to="/tickets" className="d-flex align-items-center gap-1 text-decoration-none small fw-bold" style={{ color: '#4f46e5' }}>
             View All Tickets <ArrowRight size={14} />
           </Link>
         </div>
@@ -196,7 +196,7 @@ export const Dashboard = () => {
               recentTickets.map((t) => (
                 <tr key={t.id}>
                   <td className="fw-mono text-muted">{t.ticketNumber}</td>
-                  <td className="fw-semibold text-white">{t.title}</td>
+                  <td className="fw-semibold text-dark">{t.title}</td>
                   <td>
                     <span className={`badge badge-status-${t.status.toLowerCase()}`}>
                       {t.status.replace('_', ' ')}

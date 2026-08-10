@@ -36,15 +36,15 @@ export const TicketCard = ({ ticket }) => {
           {getPriorityBadge(ticket.priority)}
         </div>
 
-        <Card.Title as={Link} to={`/tickets/${ticket.id}`} className="text-decoration-none text-light fw-bold fs-5 mb-2 d-block hover-underline">
+        <Card.Title as={Link} to={`/tickets/${ticket.id}`} className="text-decoration-none text-dark fw-bold fs-5 mb-2 d-block hover-underline">
           {ticket.title}
         </Card.Title>
 
-        <Card.Text className="text-muted small text-truncate-2 mb-3" style={{ maxHeight: '2.8rem', overflow: 'hidden' }}>
+        <Card.Text className="small text-truncate-2 mb-3" style={{ maxHeight: '2.8rem', overflow: 'hidden', color: '#475569' }}>
           {ticket.description}
         </Card.Text>
 
-        <div className="d-flex flex-wrap align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-25 small text-muted">
+        <div className="d-flex flex-wrap align-items-center justify-content-between pt-2 border-top border-slate-200 small" style={{ color: '#475569' }}>
           <div className="d-flex align-items-center gap-3">
             <span className="d-flex align-items-center gap-1">
               <User size={14} /> {ticket.createdBy?.firstName} {ticket.createdBy?.lastName}
@@ -59,7 +59,7 @@ export const TicketCard = ({ ticket }) => {
             </span>
           </div>
 
-          <Link to={`/tickets/${ticket.id}`} className="text-indigo-400 d-flex align-items-center gap-1 text-decoration-none fw-semibold">
+          <Link to={`/tickets/${ticket.id}`} className="d-flex align-items-center gap-1 text-decoration-none fw-semibold" style={{ color: '#4f46e5' }}>
             View Details <ArrowRight size={14} />
           </Link>
         </div>
