@@ -20,11 +20,11 @@ INSERT IGNORE INTO priorities (id, name, description, color_code, sla_hours) VAL
 (4, 'URGENT', 'Critical system outage or severe vulnerability requiring immediate response', '#EF4444', 2);
 
 -- Seed default users (Password for all seeded accounts is: Admin@123)
--- BCrypt hash for 'Admin@123': $2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a
+-- BCrypt hash for 'Admin@123': $2a$10$Pc6HSMH0w/Q/T77XjhbQeeL.DAdlcsyqLewksnAAsjFyG.s6ommeW
 INSERT IGNORE INTO users (id, username, email, password_hash, first_name, last_name, role_id, is_active) VALUES
-(1, 'admin', 'admin@ticketdesk.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a', 'System', 'Administrator', 1, TRUE),
-(2, 'support1', 'support@ticketdesk.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a', 'Sarah', 'Conner', 2, TRUE),
-(3, 'employee1', 'employee@ticketdesk.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a', 'John', 'Doe', 3, TRUE);
+(1, 'admin', 'admin@ticketdesk.com', '$2a$10$Pc6HSMH0w/Q/T77XjhbQeeL.DAdlcsyqLewksnAAsjFyG.s6ommeW', 'System', 'Administrator', 1, TRUE),
+(2, 'support1', 'support@ticketdesk.com', '$2a$10$Pc6HSMH0w/Q/T77XjhbQeeL.DAdlcsyqLewksnAAsjFyG.s6ommeW', 'Sarah', 'Conner', 2, TRUE),
+(3, 'employee1', 'employee@ticketdesk.com', '$2a$10$Pc6HSMH0w/Q/T77XjhbQeeL.DAdlcsyqLewksnAAsjFyG.s6ommeW', 'John', 'Doe', 3, TRUE);
 
 -- Seed Sample Tickets
 INSERT IGNORE INTO tickets (id, ticket_number, title, description, status, priority_id, category_id, created_by_id, assigned_to_id) VALUES
