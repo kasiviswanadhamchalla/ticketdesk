@@ -4,16 +4,15 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { commentApi } from '../api/commentApi';
 import { useAuth } from '../context/AuthContext';
-import { MessageSquare, Send, ShieldAlert, User, Clock } from 'lucide-react';
+import { MessageSquare, Send, ShieldAlert, Clock } from 'lucide-react';
 
 const CommentSchema = Yup.object().shape({
   content: Yup.string().required('Comment content is required'),
 });
 
 export const CommentSection = ({ ticketId }) => {
-  const { user, hasRole } = useAuth();
+  const { hasRole } = useAuth();
   const [comments, setComments] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const fetchComments = async () => {
     try {
@@ -23,8 +22,6 @@ export const CommentSection = ({ ticketId }) => {
       }
     } catch (e) {
       console.error('Failed to fetch comments', e);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -45,10 +42,10 @@ export const CommentSection = ({ ticketId }) => {
   };
 
   return (
-    <Card className="glass-card mt-4">
-      <Card.Header className="bg-transparent border-bottom border-secondary border-opacity-25 py-3">
-        <h5 className="mb-0 text-light d-flex align-items-center gap-2">
-          <MessageSquare size={20} className="text-indigo-400" /> Activity & Comments ({comments.length})
+    <Card className="glass-card mt-4" style={{ background: '#ffffff' }}>
+      <Card.Header className="bg-transparent border-bottom border-slate-200 py-3">
+        <h5 className="mb-0 fw-bold d-flex align-items-center gap-2" style={{ color: '#0f172a' }}>
+          <MessageSquare size={20} className="text-indigo-600" /> Activity & Comments ({comments.length})
         </h5>
       </Card.Header>
       <Card.Body>
@@ -77,7 +74,7 @@ export const CommentSection = ({ ticketId }) => {
                     id="internal-switch"
                     name="internal"
                     label={
-                      <span className="small text-warning d-flex align-items-center gap-1">
+                      <span className="small fw-bold d-flex align-items-center gap-1" style={{ color: '#d97706' }}>
                         <ShieldAlert size={14} /> Internal Note (Support Only)
                       </span>
                     }
@@ -99,26 +96,26 @@ export const CommentSection = ({ ticketId }) => {
         {/* Comment Thread List */}
         <div className="d-flex flex-column gap-3">
           {comments.length === 0 ? (
-            <div className="text-center text-muted py-4">No comments yet. Start the conversation!</div>
+            <div className="text-center py-4 fw-medium" style={{ color: '#475569' }}>No comments yet. Start the conversation!</div>
           ) : (
             comments.map((comment) => (
               <div
                 key={comment.id}
                 className={`p-3 rounded-3 border ${
                   comment.internal
-                    ? 'bg-warning bg-opacity-10 border-warning border-opacity-25'
-                    : 'bg-dark bg-opacity-40 border-secondary border-opacity-25'
+                    ? 'bg-warning bg-opacity-10 border-warning'
+                    : 'bg-light border-slate-200'
                 }`}
               >
                 <div className="d-flex justify-content-between align-items-center mb-2">
                   <div className="d-flex align-items-center gap-2">
                     <div
-                      className="rounded-circle bg-indigo-600 text-white d-flex align-items-center justify-content-center fw-bold small"
-                      style={{ width: 28, height: 28 }}
+                      className="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold small shadow-sm"
+                      style={{ width: 28, height: 28, background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}
                     >
                       {comment.user?.firstName ? comment.user.firstName.charAt(0) : 'U'}
                     </div>
-                    <span className="fw-semibold text-light">
+                    <span className="fw-bold" style={{ color: '#0f172a' }}>
                       {comment.user?.firstName} {comment.user?.lastName}
                     </span>
                     <Badge bg="secondary" style={{ fontSize: '0.65rem' }}>
@@ -130,11 +127,11 @@ export const CommentSection = ({ ticketId }) => {
                       </Badge>
                     )}
                   </div>
-                  <small className="text-muted d-flex align-items-center gap-1">
+                  <small className="d-flex align-items-center gap-1" style={{ color: '#64748b' }}>
                     <Clock size={12} /> {new Date(comment.createdAt).toLocaleString()}
                   </small>
                 </div>
-                <div className="text-light-50 small ms-4" style={{ whiteSpace: 'pre-wrap' }}>
+                <div className="small ms-4" style={{ whiteSpace: 'pre-wrap', color: '#1e293b', fontWeight: '500' }}>
                   {comment.content}
                 </div>
               </div>

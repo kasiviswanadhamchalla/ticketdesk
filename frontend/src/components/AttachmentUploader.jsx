@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, ProgressBar, ListGroup, Alert } from 'react-bootstrap';
 import { attachmentApi } from '../api/attachmentApi';
-import { Paperclip, Upload, Download, Trash2, FileText, CheckCircle2 } from 'lucide-react';
+import { Paperclip, Upload, Download, Trash2, FileText } from 'lucide-react';
 
 export const AttachmentUploader = ({ ticketId }) => {
   const [attachments, setAttachments] = useState([]);
@@ -35,18 +35,15 @@ export const AttachmentUploader = ({ ticketId }) => {
     setSuccess(null);
 
     try {
-      // Step 1: Request pre-signed URL
       const presignedRes = await attachmentApi.getPresignedUrl(ticketId, file.name, file.type || 'application/octet-stream');
       setUploadProgress(50);
 
       if (presignedRes.success && presignedRes.data) {
         const { uploadUrl, fileKey } = presignedRes.data;
 
-        // Step 2: Upload binary data directly to AWS S3
         await attachmentApi.uploadFileToS3(uploadUrl, file, file.type || 'application/octet-stream');
         setUploadProgress(80);
 
-        // Step 3: Confirm upload with backend
         const confirmRes = await attachmentApi.confirmUpload(
           ticketId,
           fileKey,
@@ -90,10 +87,10 @@ export const AttachmentUploader = ({ ticketId }) => {
   };
 
   return (
-    <Card className="glass-card mt-4">
-      <Card.Header className="bg-transparent border-bottom border-secondary border-opacity-25 py-3 d-flex justify-content-between align-items-center">
-        <h5 className="mb-0 text-light d-flex align-items-center gap-2">
-          <Paperclip size={20} className="text-indigo-400" /> Attachments ({attachments.length})
+    <Card className="glass-card mt-4" style={{ background: '#ffffff' }}>
+      <Card.Header className="bg-transparent border-bottom border-slate-200 py-3 d-flex justify-content-between align-items-center">
+        <h5 className="mb-0 fw-bold d-flex align-items-center gap-2" style={{ color: '#0f172a' }}>
+          <Paperclip size={20} className="text-indigo-600" /> Attachments ({attachments.length})
         </h5>
         <div>
           <input type="file" id="file-input" style={{ display: 'none' }} onChange={handleFileUpload} disabled={uploading} />
@@ -108,25 +105,25 @@ export const AttachmentUploader = ({ ticketId }) => {
 
         {uploading && (
           <div className="mb-3">
-            <small className="text-muted d-block mb-1">Uploading to S3 Bucket...</small>
+            <small className="d-block mb-1 fw-bold" style={{ color: '#334155' }}>Uploading to S3 Bucket...</small>
             <ProgressBar animated now={uploadProgress} variant="indigo" />
           </div>
         )}
 
         {attachments.length === 0 ? (
-          <div className="text-center text-muted py-3">No attachments uploaded for this ticket.</div>
+          <div className="text-center py-3 fw-medium" style={{ color: '#475569' }}>No attachments uploaded for this ticket.</div>
         ) : (
           <ListGroup variant="flush" className="bg-transparent">
             {attachments.map((att) => (
               <ListGroup.Item
                 key={att.id}
-                className="bg-dark bg-opacity-30 border-secondary border-opacity-25 text-light d-flex justify-content-between align-items-center py-2 px-3 rounded-2 mb-2"
+                className="bg-light border border-slate-200 text-dark d-flex justify-content-between align-items-center py-2 px-3 rounded-2 mb-2"
               >
                 <div className="d-flex align-items-center gap-2 text-truncate me-3">
-                  <FileText size={18} className="text-indigo-400 flex-shrink-0" />
+                  <FileText size={18} className="text-indigo-600 flex-shrink-0" />
                   <div>
-                    <div className="fw-medium text-truncate" style={{ maxWidth: '300px' }}>{att.fileName}</div>
-                    <small className="text-muted">{formatFileSize(att.fileSize)} • Uploaded by {att.uploadedBy?.firstName}</small>
+                    <div className="fw-semibold text-truncate" style={{ maxWidth: '300px', color: '#0f172a' }}>{att.fileName}</div>
+                    <small style={{ color: '#475569' }}>{formatFileSize(att.fileSize)} • Uploaded by {att.uploadedBy?.firstName}</small>
                   </div>
                 </div>
 
@@ -136,7 +133,7 @@ export const AttachmentUploader = ({ ticketId }) => {
                       href={att.downloadUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn btn-outline-light btn-sm d-flex align-items-center gap-1"
+                      className="btn btn-outline-indigo btn-sm d-flex align-items-center gap-1"
                     >
                       <Download size={14} /> Download
                     </a>

@@ -7,8 +7,8 @@ export const Sidebar = () => {
   const { hasRole } = useAuth();
 
   return (
-    <div className="p-3 h-100 d-flex flex-column gap-2" style={{ minWidth: '240px' }}>
-      <div className="text-uppercase text-muted fw-bold mb-2 px-3" style={{ fontSize: '0.7rem', letterSpacing: '1px' }}>
+    <div className="p-3 h-100 d-flex flex-column gap-2" style={{ minWidth: '240px', background: '#ffffff' }}>
+      <div className="text-uppercase fw-bold mb-2 px-3" style={{ fontSize: '0.75rem', letterSpacing: '1px', color: '#475569' }}>
         Main Menu
       </div>
 
@@ -27,7 +27,7 @@ export const Sidebar = () => {
         <span>Create Ticket</span>
       </NavLink>
 
-      <div className="text-uppercase text-muted fw-bold my-2 px-3" style={{ fontSize: '0.7rem', letterSpacing: '1px' }}>
+      <div className="text-uppercase fw-bold my-2 px-3" style={{ fontSize: '0.75rem', letterSpacing: '1px', color: '#475569' }}>
         Account & System
       </div>
 

@@ -80,26 +80,26 @@ export const TicketDetail = () => {
 
   return (
     <div className="p-3 p-md-4">
-      <Button variant="link" onClick={() => navigate('/tickets')} className="text-slate-300 text-decoration-none p-0 mb-3 d-flex align-items-center gap-1">
+      <Button variant="link" onClick={() => navigate('/tickets')} className="text-decoration-none p-0 mb-3 d-flex align-items-center gap-1 fw-bold" style={{ color: '#4f46e5' }}>
         <ArrowLeft size={16} /> Back to Tickets
       </Button>
 
       {/* Header Info */}
-      <Card className="glass-card p-4 mb-4">
+      <Card className="glass-card p-4 mb-4" style={{ background: '#ffffff' }}>
         <div className="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
           <div>
             <div className="d-flex align-items-center gap-2 mb-2">
-              <span className="fw-mono text-muted fs-6">{ticket.ticketNumber}</span>
+              <span className="fw-mono fs-6 fw-bold" style={{ color: '#475569' }}>{ticket.ticketNumber}</span>
               <span className={`badge badge-status-${ticket.status.toLowerCase()}`}>
                 {ticket.status.replace('_', ' ')}
               </span>
               {ticket.priority && (
-                <Badge style={{ backgroundColor: `${ticket.priority.colorCode}25`, color: ticket.priority.colorCode, border: `1px solid ${ticket.priority.colorCode}` }}>
+                <Badge style={{ backgroundColor: `${ticket.priority.colorCode}20`, color: ticket.priority.colorCode, border: `1px solid ${ticket.priority.colorCode}`, fontWeight: '700' }}>
                   {ticket.priority.name} Priority
                 </Badge>
               )}
             </div>
-            <h3 className="fw-bold text-white mb-2">{ticket.title}</h3>
+            <h3 className="fw-bold mb-2" style={{ color: '#0f172a' }}>{ticket.title}</h3>
           </div>
 
           {/* Action Buttons */}
@@ -140,16 +140,16 @@ export const TicketDetail = () => {
         </div>
 
         {/* Metadata Details */}
-        <Row className="g-3 pt-3 border-top border-secondary border-opacity-25 text-slate-300 small" style={{ color: '#cbd5e1' }}>
+        <Row className="g-3 pt-3 border-top border-slate-200 small" style={{ color: '#334155' }}>
           <Col md={3} sm={6}>
-            <div className="fw-bold text-white mb-1">Created By</div>
-            <div className="d-flex align-items-center gap-1">
-              <User size={14} /> {ticket.createdBy?.firstName} {ticket.createdBy?.lastName}
+            <div className="fw-bold mb-1" style={{ color: '#0f172a' }}>Created By</div>
+            <div className="d-flex align-items-center gap-1 font-medium" style={{ color: '#334155' }}>
+              <User size={14} className="text-indigo-600" /> {ticket.createdBy?.firstName} {ticket.createdBy?.lastName}
             </div>
           </Col>
 
           <Col md={3} sm={6}>
-            <div className="fw-bold text-white mb-1">Assigned Support Engineer</div>
+            <div className="fw-bold mb-1" style={{ color: '#0f172a' }}>Assigned Support Engineer</div>
             {hasRole(['ROLE_ADMIN', 'ROLE_SUPPORT_ENGINEER']) ? (
               <Form.Select
                 size="sm"
@@ -163,30 +163,30 @@ export const TicketDetail = () => {
                 ))}
               </Form.Select>
             ) : (
-              <div>{ticket.assignedTo ? `${ticket.assignedTo.firstName} ${ticket.assignedTo.lastName}` : 'Unassigned'}</div>
+              <div style={{ color: '#334155' }}>{ticket.assignedTo ? `${ticket.assignedTo.firstName} ${ticket.assignedTo.lastName}` : 'Unassigned'}</div>
             )}
           </Col>
 
           <Col md={3} sm={6}>
-            <div className="fw-bold text-white mb-1">Category</div>
-            <div className="d-flex align-items-center gap-1">
-              <Tag size={14} /> {ticket.category?.name || 'Uncategorized'}
+            <div className="fw-bold mb-1" style={{ color: '#0f172a' }}>Category</div>
+            <div className="d-flex align-items-center gap-1" style={{ color: '#334155' }}>
+              <Tag size={14} className="text-indigo-600" /> {ticket.category?.name || 'Uncategorized'}
             </div>
           </Col>
 
           <Col md={3} sm={6}>
-            <div className="fw-bold text-white mb-1">Created Date</div>
-            <div className="d-flex align-items-center gap-1">
-              <Clock size={14} /> {new Date(ticket.createdAt).toLocaleString()}
+            <div className="fw-bold mb-1" style={{ color: '#0f172a' }}>Created Date</div>
+            <div className="d-flex align-items-center gap-1" style={{ color: '#334155' }}>
+              <Clock size={14} className="text-indigo-600" /> {new Date(ticket.createdAt).toLocaleString()}
             </div>
           </Col>
         </Row>
       </Card>
 
       {/* Description Section */}
-      <Card className="glass-card p-4 mb-4">
-        <h5 className="fw-bold text-white mb-3">Problem Description</h5>
-        <div className="text-slate-200" style={{ whiteSpace: 'pre-wrap', lineHeight: 1.65, color: '#e2e8f0' }}>
+      <Card className="glass-card p-4 mb-4" style={{ background: '#ffffff' }}>
+        <h5 className="fw-bold mb-3" style={{ color: '#0f172a' }}>Problem Description</h5>
+        <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.65, color: '#1e293b', fontWeight: '500', fontSize: '0.975rem' }}>
           {ticket.description}
         </div>
       </Card>
@@ -199,10 +199,10 @@ export const TicketDetail = () => {
 
       {/* Status Update Modal */}
       <Modal show={showStatusModal} onHide={() => setShowStatusModal(false)} centered className="modal-dark">
-        <Modal.Header closeButton className="bg-dark text-white border-secondary">
-          <Modal.Title>Confirm Status Transition to {targetStatus}</Modal.Title>
+        <Modal.Header closeButton className="bg-white text-dark border-slate-200">
+          <Modal.Title className="fw-bold" style={{ color: '#0f172a' }}>Confirm Status Transition to {targetStatus}</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="bg-dark text-white">
+        <Modal.Body className="bg-white text-dark">
           {statusError && <Alert variant="danger">{statusError}</Alert>}
           <Form.Group>
             <Form.Label className="form-label">Status Change Reason / Note (Optional)</Form.Label>
@@ -216,7 +216,7 @@ export const TicketDetail = () => {
             />
           </Form.Group>
         </Modal.Body>
-        <Modal.Footer className="bg-dark border-secondary">
+        <Modal.Footer className="bg-white border-slate-200">
           <Button variant="outline-secondary" onClick={() => setShowStatusModal(false)}>
             Cancel
           </Button>

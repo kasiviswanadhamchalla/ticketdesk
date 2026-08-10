@@ -36,7 +36,7 @@ export function App() {
                     path="/*"
                     element={
                       <div className="d-flex w-100">
-                        <aside className="d-none d-lg-block border-end border-secondary border-opacity-25" style={{ background: 'rgba(9, 13, 22, 0.4)' }}>
+                        <aside className="d-none d-lg-block border-end border-slate-200" style={{ background: '#ffffff', minWidth: '240px' }}>
                           <Sidebar />
                         </aside>
                         <main className="flex-grow-1 overflow-auto">
