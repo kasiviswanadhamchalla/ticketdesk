@@ -29,7 +29,7 @@ public class DashboardServiceImpl implements DashboardService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
-        boolean isEmployee = user.getRole().getName() == ERole.ROLE_EMPLOYEE;
+        boolean isEmployee = user.getRole() != null && "ROLE_EMPLOYEE".equals(user.getRole().getName().name());
 
         long totalTickets;
         long openTickets;
