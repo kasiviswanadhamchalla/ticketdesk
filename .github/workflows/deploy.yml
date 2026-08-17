@@ -12,6 +12,7 @@ env:
   ECS_SERVICE: tkt-kc-dev-backend-service
   ECS_CLUSTER: tkt-kc-dev-cluster
   CONTAINER_NAME: ticketdesk-backend
+  S3_FRONTEND_BUCKET: tkt-kc-dev-web-6953e5ec
 
 jobs:
   validate-and-test:
@@ -44,7 +45,37 @@ jobs:
       - name: Terraform Init & Validate
         run: cd infrastructure/terraform && terraform init -backend=false && terraform validate
 
-  build-and-deploy:
+  deploy-frontend:
+    name: Build & Deploy Frontend to AWS S3
+    needs: validate-and-test
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Build & Sync Frontend to S3
+        run: |
+          if [ -d "frontend" ]; then
+            cd frontend
+            npm ci
+            npm run build
+            aws s3 sync dist/ s3://${{ env.S3_FRONTEND_BUCKET }} --delete
+          fi
+
+  deploy-backend:
     name: Build Docker Image & Deploy to AWS ECS
     needs: validate-and-test
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
