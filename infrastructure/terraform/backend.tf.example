@@ -1,0 +1,19 @@
+# ==============================================================================
+# S3 Remote Backend Configuration Example for TicketDesk
+# ==============================================================================
+# BEFORE ENABLING:
+# 1. Create an S3 bucket in us-east-1 (e.g. tkt-tf-state-123456789012)
+# 2. Enable versioning on the bucket: aws s3api put-bucket-versioning ...
+# 3. Create a DynamoDB table named 'tkt-tf-locks' with LockID (String) primary key
+# 4. Copy or rename this file to backend.tf and fill in your bucket name
+# ==============================================================================
+
+# terraform {
+#   backend "s3" {
+#     bucket         = "tkt-tf-state-YOUR_ACCOUNT_ID"
+#     key            = "ticketdesk/dev/terraform.tfstate"
+#     region         = "us-east-1"
+#     dynamodb_table = "tkt-tf-locks"
+#     encrypt        = true
+#   }
+# }

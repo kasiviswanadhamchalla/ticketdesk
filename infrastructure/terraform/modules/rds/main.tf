@@ -1,15 +1,17 @@
+# Private DB Subnet Group
 resource "aws_db_subnet_group" "main" {
-  name        = "${var.project_name}-${var.environment}-db-subnet-group"
+  name        = "tkt-${var.owner}-${var.environment}-db-subnet-group"
   subnet_ids  = var.private_subnet_ids
-  description = "DB Subnet group for private RDS MySQL"
+  description = "DB Subnet group for private TicketDesk RDS MySQL"
 
   tags = merge(var.tags, {
-    Name = "${var.project_name}-${var.environment}-db-subnet-group"
+    Name = "tkt-${var.owner}-${var.environment}-db-subnet-group"
   })
 }
 
+# RDS MySQL Instance
 resource "aws_db_instance" "mysql" {
-  identifier             = "${var.project_name}-${var.environment}-mysql"
+  identifier             = "tkt-${var.owner}-${var.environment}-mysql"
   engine                 = "mysql"
   engine_version         = "8.0"
   instance_class         = var.db_instance_class
@@ -25,9 +27,8 @@ resource "aws_db_instance" "mysql" {
   publicly_accessible    = false
   skip_final_snapshot    = true
   deletion_protection    = false
-  parameter_group_name   = "default.mysql8.0"
 
   tags = merge(var.tags, {
-    Name = "${var.project_name}-${var.environment}-mysql"
+    Name = "tkt-${var.owner}-${var.environment}-mysql"
   })
 }

@@ -1,16 +1,6 @@
-# CloudWatch Log Group for ECS Tasks
-resource "aws_cloudwatch_log_group" "ecs" {
-  name              = "/ecs/${var.project_name}-${var.environment}"
-  retention_in_days = 30
-
-  tags = merge(var.tags, {
-    Name = "${var.project_name}-${var.environment}-log-group"
-  })
-}
-
-# CloudWatch Dashboard
+# CloudWatch Dashboard for TicketDesk Monitoring
 resource "aws_cloudwatch_dashboard" "main" {
-  dashboard_name = "${var.project_name}-${var.environment}-dashboard"
+  dashboard_name = "tkt-${var.owner}-${var.environment}-dashboard"
 
   dashboard_body = jsonencode({
     widgets = [
@@ -27,8 +17,8 @@ resource "aws_cloudwatch_dashboard" "main" {
           ]
           period = 300
           stat   = "Average"
-          region = var.aws_region
-          title  = "ECS Backend CPU & Memory Utilization"
+          region = "us-east-1"
+          title  = "ECS Fargate CPU & Memory Utilization (%)"
         }
       },
       {
@@ -40,22 +30,21 @@ resource "aws_cloudwatch_dashboard" "main" {
         properties = {
           metrics = [
             ["AWS/ApplicationELB", "HTTPCode_Target_5XX_Count", "LoadBalancer", var.alb_arn_suffix],
-            [".", "HTTPCode_Target_2XX_Count", ".", "."],
-            [".", "TargetResponseTime", ".", "."]
+            [".", "HTTPCode_Target_2XX_Count", ".", "."]
           ]
           period = 300
           stat   = "Sum"
-          region = var.aws_region
-          title  = "Application Load Balancer Request Metrics"
+          region = "us-east-1"
+          title  = "ALB HTTP Response Codes (2xx vs 5xx)"
         }
       }
     ]
   })
 }
 
-# CloudWatch Alarms
+# Alarm 1: High ECS CPU Utilization (> 80%)
 resource "aws_cloudwatch_metric_alarm" "ecs_high_cpu" {
-  alarm_name          = "${var.project_name}-${var.environment}-ecs-high-cpu"
+  alarm_name          = "tkt-${var.owner}-${var.environment}-ecs-high-cpu"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 2
   metric_name         = "CPUUtilization"
@@ -63,7 +52,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_high_cpu" {
   period              = 300
   statistic           = "Average"
   threshold           = 80
-  alarm_description   = "Alarm triggers when ECS CPU exceeds 80%"
+  alarm_description   = "Triggers when ECS service average CPU exceeds 80%"
 
   dimensions = {
     ClusterName = var.ecs_cluster_name
@@ -73,8 +62,9 @@ resource "aws_cloudwatch_metric_alarm" "ecs_high_cpu" {
   tags = var.tags
 }
 
+# Alarm 2: High ECS Memory Utilization (> 80%)
 resource "aws_cloudwatch_metric_alarm" "ecs_high_memory" {
-  alarm_name          = "${var.project_name}-${var.environment}-ecs-high-memory"
+  alarm_name          = "tkt-${var.owner}-${var.environment}-ecs-high-memory"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 2
   metric_name         = "MemoryUtilization"
@@ -82,7 +72,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_high_memory" {
   period              = 300
   statistic           = "Average"
   threshold           = 80
-  alarm_description   = "Alarm triggers when ECS Memory exceeds 80%"
+  alarm_description   = "Triggers when ECS service average Memory exceeds 80%"
 
   dimensions = {
     ClusterName = var.ecs_cluster_name
@@ -92,34 +82,18 @@ resource "aws_cloudwatch_metric_alarm" "ecs_high_memory" {
   tags = var.tags
 }
 
-resource "aws_cloudwatch_metric_alarm" "alb_5xx_errors" {
-  alarm_name          = "${var.project_name}-${var.environment}-alb-5xx-high"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = 1
-  metric_name         = "HTTPCode_Target_5XX_Count"
-  namespace           = "AWS/ApplicationELB"
-  period              = 300
-  statistic           = "Sum"
-  threshold           = 5
-  alarm_description   = "Alarm triggers when ALB returns >= 5 5XX errors in 5 minutes"
-
-  dimensions = {
-    LoadBalancer = var.alb_arn_suffix
-  }
-
-  tags = var.tags
-}
-
-resource "aws_cloudwatch_metric_alarm" "alb_unhealthy_hosts" {
-  alarm_name          = "${var.project_name}-${var.environment}-alb-unhealthy-targets"
+# Alarm 3: Unhealthy ALB Target Count (> 0)
+resource "aws_cloudwatch_metric_alarm" "unhealthy_targets" {
+  count               = var.enable_alb_alarms ? 1 : 0
+  alarm_name          = "tkt-${var.owner}-${var.environment}-unhealthy-targets"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
-  metric_name         = "UnHealthyHostCount"
+  metric_name         = "UnhealthyHostCount"
   namespace           = "AWS/ApplicationELB"
   period              = 60
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = 0
-  alarm_description   = "Alarm triggers when ALB has unhealthy target hosts"
+  alarm_description   = "Triggers when ALB target group has 1 or more unhealthy hosts"
 
   dimensions = {
     TargetGroup  = var.target_group_arn_suffix

@@ -1,12 +1,20 @@
 variable "project_name" {
-  type = string
+  description = "Project name prefix"
+  type        = string
+}
+
+variable "owner" {
+  description = "Resource owner identifier"
+  type        = string
 }
 
 variable "environment" {
-  type = string
+  description = "Deployment environment"
+  type        = string
 }
 
 variable "tags" {
-  type    = map(string)
-  default = {}
+  description = "Resource tags"
+  type        = map(string)
+  default     = {}
 }

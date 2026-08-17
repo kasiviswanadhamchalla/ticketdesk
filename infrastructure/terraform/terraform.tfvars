@@ -1,0 +1,30 @@
+# AWS Region & Project Identification
+aws_region   = "us-east-1"
+project_name = "tkt"
+owner        = "kc"
+environment  = "dev"
+cost_center  = "CC-1234"
+
+# Milestone Feature Toggles (M3 - M7)
+enable_rds                  = true
+enable_secrets              = true
+enable_s3                   = true
+enable_cloudfront           = false
+enable_lambda               = true
+enable_cloudwatch_dashboard = true
+
+# VPC & Networking CIDRs
+vpc_cidr             = "10.0.0.0/16"
+public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24"]
+enable_nat_gateway   = true
+single_nat_gateway   = true
+
+# ECS Container Image & Task Config
+container_image    = "559971704569.dkr.ecr.us-east-1.amazonaws.com/tkt-ks-backend:v1"
+container_port     = 8080
+desired_count      = 1
+cpu                = 512
+memory             = 1024
+log_retention_days = 7
+health_check_path  = "/api/actuator/health"

@@ -1,7 +1,14 @@
-output "cloudfront_distribution_id" {
-  value = aws_cloudfront_distribution.frontend.id
+output "distribution_id" {
+  description = "CloudFront distribution ID"
+  value       = aws_cloudfront_distribution.frontend.id
 }
 
-output "cloudfront_domain_name" {
-  value = aws_cloudfront_distribution.frontend.domain_name
+output "distribution_arn" {
+  description = "CloudFront distribution ARN"
+  value       = aws_cloudfront_distribution.frontend.arn
+}
+
+output "distribution_domain_name" {
+  description = "Domain name of the CloudFront distribution"
+  value       = aws_cloudfront_distribution.frontend.domain_name
 }

@@ -1,32 +1,48 @@
 variable "project_name" {
-  type = string
+  description = "Project name prefix"
+  type        = string
+}
+
+variable "owner" {
+  description = "Resource owner identifier"
+  type        = string
 }
 
 variable "environment" {
-  type = string
-}
-
-variable "aws_region" {
-  type = string
+  description = "Deployment environment"
+  type        = string
 }
 
 variable "ecs_cluster_name" {
-  type = string
+  description = "ECS cluster name for metrics"
+  type        = string
 }
 
 variable "ecs_service_name" {
-  type = string
+  description = "ECS service name for metrics"
+  type        = string
+}
+
+variable "enable_alb_alarms" {
+  description = "Flag to enable ALB target group alarms"
+  type        = bool
+  default     = true
 }
 
 variable "alb_arn_suffix" {
-  type = string
+  description = "ALB ARN suffix for metrics"
+  type        = string
+  default     = ""
 }
 
 variable "target_group_arn_suffix" {
-  type = string
+  description = "ALB target group ARN suffix for metrics"
+  type        = string
+  default     = ""
 }
 
 variable "tags" {
-  type    = map(string)
-  default = {}
+  description = "Resource tags"
+  type        = map(string)
+  default     = {}
 }

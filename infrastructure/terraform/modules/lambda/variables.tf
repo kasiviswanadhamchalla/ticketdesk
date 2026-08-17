@@ -1,12 +1,30 @@
 variable "project_name" {
-  type = string
+  description = "Project name prefix"
+  type        = string
+}
+
+variable "owner" {
+  description = "Resource owner identifier"
+  type        = string
 }
 
 variable "environment" {
-  type = string
+  description = "Deployment environment"
+  type        = string
+}
+
+variable "attachments_bucket_id" {
+  description = "S3 bucket ID for ticket attachments"
+  type        = string
+}
+
+variable "attachments_bucket_arn" {
+  description = "S3 bucket ARN for ticket attachments"
+  type        = string
 }
 
 variable "tags" {
-  type    = map(string)
-  default = {}
+  description = "Resource tags"
+  type        = map(string)
+  default     = {}
 }

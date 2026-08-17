@@ -1,28 +1,32 @@
+# CloudFront Origin Access Control (OAC)
+resource "aws_cloudfront_origin_access_control" "oac" {
+  name                              = "tkt-${var.owner}-${var.environment}-oac"
+  description                       = "OAC for TicketDesk frontend S3 bucket"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
+# CloudFront Distribution
 resource "aws_cloudfront_distribution" "frontend" {
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
+  price_class         = "PriceClass_100"
 
   origin {
-    domain_name = var.frontend_s3_website_endpoint
-    origin_id   = "S3-Frontend-Origin"
-
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
+    domain_name              = var.frontend_bucket_domain_name
+    origin_id                = "S3-${var.frontend_bucket_id}"
+    origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
   }
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "S3-Frontend-Origin"
+    target_origin_id = "S3-${var.frontend_bucket_id}"
 
     forwarded_values {
       query_string = false
-
       cookies {
         forward = "none"
       }
@@ -34,12 +38,17 @@ resource "aws_cloudfront_distribution" "frontend" {
     max_ttl                = 86400
   }
 
-  # SPA Custom Error Response Routing
+  # SPA Routing Fallback (React Router)
   custom_error_response {
-    error_code            = 404
-    response_code         = 200
-    response_page_path    = "/index.html"
-    error_caching_min_ttl = 300
+    error_code         = 404
+    response_code      = 200
+    response_page_path = "/index.html"
+  }
+
+  custom_error_response {
+    error_code         = 403
+    response_code      = 200
+    response_page_path = "/index.html"
   }
 
   restrictions {
@@ -53,6 +62,31 @@ resource "aws_cloudfront_distribution" "frontend" {
   }
 
   tags = merge(var.tags, {
-    Name = "${var.project_name}-${var.environment}-cloudfront"
+    Name = "tkt-${var.owner}-${var.environment}-cdn"
+  })
+}
+
+# S3 Bucket Policy for CloudFront Access
+resource "aws_s3_bucket_policy" "frontend" {
+  bucket = var.frontend_bucket_id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "AllowCloudFrontServicePrincipalReadOnly"
+        Effect    = "Allow"
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        }
+        Action   = "s3:GetObject"
+        Resource = "${var.frontend_bucket_arn}/*"
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = aws_cloudfront_distribution.frontend.arn
+          }
+        }
+      }
+    ]
   })
 }

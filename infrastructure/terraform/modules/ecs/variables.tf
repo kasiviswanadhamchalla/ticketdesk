@@ -1,87 +1,115 @@
 variable "project_name" {
-  type = string
+  description = "Project name prefix"
+  type        = string
+}
+
+variable "owner" {
+  description = "Resource owner identifier"
+  type        = string
 }
 
 variable "environment" {
-  type = string
+  description = "Deployment environment"
+  type        = string
 }
 
 variable "aws_region" {
-  type = string
+  description = "AWS Region for CloudWatch log stream"
+  type        = string
 }
 
 variable "private_subnet_ids" {
-  type = list(string)
+  description = "List of private subnet IDs for ECS task deployment"
+  type        = list(string)
 }
 
-variable "ecs_tasks_security_group_id" {
-  type = string
+variable "ecs_security_group_id" {
+  description = "Security group ID for ECS tasks"
+  type        = string
 }
 
 variable "target_group_arn" {
-  type = string
-}
-
-variable "alb_listener_arn" {
-  type = string
+  description = "ALB target group ARN for container registration"
+  type        = string
 }
 
 variable "ecs_execution_role_arn" {
-  type = string
+  description = "IAM Role ARN for ECS Task Execution"
+  type        = string
 }
 
 variable "ecs_task_role_arn" {
-  type = string
+  description = "IAM Role ARN for ECS Task Application Runtime"
+  type        = string
 }
 
-variable "backend_image_url" {
-  type = string
+variable "container_image" {
+  description = "Full ECR Image URI with tag (e.g. 559971704569.dkr.ecr.us-east-1.amazonaws.com/tkt-ks-backend:v1)"
+  type        = string
 }
 
-variable "db_endpoint" {
-  type = string
-}
-
-variable "db_name" {
-  type = string
+variable "db_host" {
+  description = "RDS MySQL Host Address"
+  type        = string
+  default     = "localhost"
 }
 
 variable "db_username" {
-  type = string
-}
-
-variable "db_password_secret_arn" {
-  type = string
-}
-
-variable "jwt_secret_arn" {
-  type = string
+  description = "Database master username"
+  type        = string
+  default     = "dbadmin"
 }
 
 variable "attachment_bucket_name" {
-  type = string
+  description = "Name of the ticket attachments S3 bucket"
+  type        = string
+  default     = ""
 }
 
-variable "log_group_name" {
-  type = string
+variable "db_password_secret_arn" {
+  description = "Secrets Manager ARN for DB password"
+  type        = string
+  default     = ""
 }
 
-variable "container_cpu" {
-  type    = number
-  default = 512
+variable "jwt_secret_arn" {
+  description = "Secrets Manager ARN for JWT secret"
+  type        = string
+  default     = ""
 }
 
-variable "container_memory" {
-  type    = number
-  default = 1024
+variable "container_port" {
+  description = "Container port exposure"
+  type        = number
+  default     = 8080
 }
 
 variable "desired_count" {
-  type    = number
-  default = 2
+  description = "Desired number of ECS task instances"
+  type        = number
+  default     = 1
+}
+
+variable "cpu" {
+  description = "Fargate CPU units (256, 512, 1024, 2048, 4096)"
+  type        = number
+  default     = 512
+}
+
+variable "memory" {
+  description = "Fargate Memory in MiB (512, 1024, 2048, etc.)"
+  type        = number
+  default     = 1024
+}
+
+variable "log_retention_days" {
+  description = "CloudWatch Log retention in days"
+  type        = number
+  default     = 7
 }
 
 variable "tags" {
-  type    = map(string)
-  default = {}
+  description = "Resource tags"
+  type        = map(string)
+  default     = {}
 }
