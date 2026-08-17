@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Ticket, LogIn } from 'lucide-react';
+import { Ticket, LogIn, Eye, EyeOff } from 'lucide-react';
 
 const LoginSchema = Yup.object().shape({
   usernameOrEmail: Yup.string()
@@ -19,6 +19,7 @@ export const LoginModal = ({ show, onHide, onSwitchToRegister }) => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (values, { setSubmitting }) => {
     setErrorMessage('');
@@ -81,17 +82,27 @@ export const LoginModal = ({ show, onHide, onSwitchToRegister }) => {
 
               <Form.Group className="mb-4">
                 <Form.Label className="form-label">Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  placeholder="••••••••"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  isInvalid={touched.password && !!errors.password}
-                  className="form-control-dark"
-                />
-                <Form.Control.Feedback type="invalid" className="fw-semibold">
+                <div className="position-relative">
+                  <Form.Control
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    placeholder="••••••••"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isInvalid={touched.password && !!errors.password}
+                    className="form-control-dark pe-5"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="btn btn-link position-absolute end-0 top-50 translate-middle-y me-2 p-0 text-decoration-none shadow-none border-0"
+                    style={{ color: '#64748b' }}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+                <Form.Control.Feedback type="invalid" className="fw-semibold d-block">
                   {errors.password}
                 </Form.Control.Feedback>
               </Form.Group>
