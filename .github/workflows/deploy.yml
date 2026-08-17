@@ -67,6 +67,8 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Build & Sync Frontend to S3
+        env:
+          VITE_API_BASE_URL: http://tkt-kc-dev-alb-1737711098.us-east-1.elb.amazonaws.com/api
         run: |
           if [ -d "frontend" ]; then
             cd frontend

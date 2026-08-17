@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://tkt-kc-dev-alb-1737711098.us-east-1.elb.amazonaws.com/api';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
