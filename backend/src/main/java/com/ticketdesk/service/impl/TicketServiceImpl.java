@@ -113,7 +113,14 @@ public class TicketServiceImpl implements TicketService {
             List<Predicate> predicates = new ArrayList<>();
 
             // Role based filtering: EMPLOYEE only sees their own tickets
-            if (currentUser.getRole() != null && "ROLE_EMPLOYEE".equals(currentUser.getRole().getName().name())) {
+            boolean isAdminOrSupport = currentUser.getRole() != null && (
+                    currentUser.getRole().getName() == ERole.ROLE_ADMIN ||
+                    currentUser.getRole().getName() == ERole.ROLE_SUPPORT_ENGINEER ||
+                    "ROLE_ADMIN".equalsIgnoreCase(currentUser.getRole().getName().name()) ||
+                    "ROLE_SUPPORT_ENGINEER".equalsIgnoreCase(currentUser.getRole().getName().name())
+            );
+
+            if (!isAdminOrSupport) {
                 predicates.add(criteriaBuilder.equal(root.get("createdBy").get("id"), currentUser.getId()));
             }
 
