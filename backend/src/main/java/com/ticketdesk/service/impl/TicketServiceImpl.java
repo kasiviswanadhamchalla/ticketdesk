@@ -271,6 +271,9 @@ public class TicketServiceImpl implements TicketService {
             ticket.setResolvedAt(Instant.now());
         } else if (newStatus == TicketStatus.CLOSED) {
             ticket.setClosedAt(Instant.now());
+        } else if (newStatus == TicketStatus.REOPENED || newStatus == TicketStatus.OPEN || newStatus == TicketStatus.IN_PROGRESS) {
+            ticket.setClosedAt(null);
+            ticket.setResolvedAt(null);
         }
     }
 

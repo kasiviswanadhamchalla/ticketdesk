@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { ticketApi } from '../api/ticketApi';
 import { categoryApi } from '../api/categoryApi';
 import { priorityApi } from '../api/priorityApi';
+import { attachmentApi } from '../api/attachmentApi';
 import { useDocumentTitle } from '../utils/useDocumentTitle';
-import { PlusCircle, ArrowLeft } from 'lucide-react';
+import { PlusCircle, ArrowLeft, Paperclip } from 'lucide-react';
 
 const TicketSchema = Yup.object().shape({
   title: Yup.string().min(5, 'Minimum 5 characters').max(200, 'Maximum 200 characters').required('Title is required'),
@@ -21,7 +22,9 @@ export const CreateTicket = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [priorities, setPriorities] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState('');
+  const [uploadStatus, setUploadStatus] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +41,7 @@ export const CreateTicket = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     setError('');
+    setUploadStatus('');
     try {
       const res = await ticketApi.createTicket({
         ...values,
@@ -46,7 +50,19 @@ export const CreateTicket = () => {
       });
 
       if (res.success && res.data) {
-        navigate(`/tickets/${res.data.id}`);
+        const createdTicketId = res.data.id;
+
+        // If an attachment file was provided, upload it to S3
+        if (selectedFile) {
+          try {
+            setUploadStatus('Uploading file attachment to AWS S3...');
+            await attachmentApi.uploadFileToS3(createdTicketId, selectedFile);
+          } catch (uploadErr) {
+            console.error('Attachment upload warning', uploadErr);
+          }
+        }
+
+        navigate(`/tickets/${createdTicketId}`);
       }
     } catch (err) {
       console.error(err);
@@ -69,6 +85,7 @@ export const CreateTicket = () => {
         </div>
 
         {error && <Alert variant="danger">{error}</Alert>}
+        {uploadStatus && <Alert variant="info">{uploadStatus}</Alert>}
 
         <Formik
           initialValues={{ title: '', description: '', categoryId: '', priorityId: '' }}
@@ -131,11 +148,11 @@ export const CreateTicket = () => {
                 </Col>
               </Row>
 
-              <Form.Group className="mb-4">
+              <Form.Group className="mb-3">
                 <Form.Label className="form-label">Detailed Description</Form.Label>
                 <Form.Control
                   as="textarea"
-                  rows={5}
+                  rows={4}
                   name="description"
                   placeholder="Provide step-by-step details, error messages, and system specifications..."
                   value={values.description}
@@ -144,6 +161,21 @@ export const CreateTicket = () => {
                   className="form-control-dark"
                 />
                 <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
+              </Form.Group>
+
+              {/* Attachment File Input Option */}
+              <Form.Group className="mb-4">
+                <Form.Label className="form-label d-flex align-items-center gap-1">
+                  <Paperclip size={16} className="text-indigo-600" /> Upload Attachment (Optional)
+                </Form.Label>
+                <Form.Control
+                  type="file"
+                  onChange={(e) => setSelectedFile(e.target.files[0] || null)}
+                  className="form-control-dark"
+                />
+                <Form.Text className="text-muted">
+                  Supported files: PNG, JPG, PDF, TXT, LOG (Max 10MB)
+                </Form.Text>
               </Form.Group>
 
               <div className="d-flex justify-content-end gap-3">
@@ -161,3 +193,5 @@ export const CreateTicket = () => {
     </div>
   );
 };
+
+export default CreateTicket;

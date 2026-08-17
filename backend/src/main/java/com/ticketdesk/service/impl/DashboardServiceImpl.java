@@ -1,8 +1,12 @@
 package com.ticketdesk.service.impl;
 
 import com.ticketdesk.dto.DashboardStatsDto;
+import com.ticketdesk.entity.ERole;
 import com.ticketdesk.entity.TicketStatus;
+import com.ticketdesk.entity.User;
+import com.ticketdesk.exception.ResourceNotFoundException;
 import com.ticketdesk.repository.TicketRepository;
+import com.ticketdesk.repository.UserRepository;
 import com.ticketdesk.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,18 +21,49 @@ import java.util.Map;
 public class DashboardServiceImpl implements DashboardService {
 
     private final TicketRepository ticketRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional(readOnly = true)
     public DashboardStatsDto getDashboardStats(String username) {
-        long totalTickets = ticketRepository.count();
-        long openTickets = ticketRepository.countByStatus(TicketStatus.OPEN);
-        long inProgressTickets = ticketRepository.countByStatus(TicketStatus.IN_PROGRESS);
-        long resolvedTickets = ticketRepository.countByStatus(TicketStatus.RESOLVED);
-        long closedTickets = ticketRepository.countByStatus(TicketStatus.CLOSED);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+
+        boolean isEmployee = user.getRole().getName() == ERole.ROLE_EMPLOYEE;
+
+        long totalTickets;
+        long openTickets;
+        long inProgressTickets;
+        long resolvedTickets;
+        long closedTickets;
+
+        List<Map<String, Object>> statusRaw;
+        List<Map<String, Object>> priorityRaw;
+        List<Map<String, Object>> categoryRaw;
+
+        if (isEmployee) {
+            totalTickets = ticketRepository.countByCreatedById(user.getId());
+            openTickets = ticketRepository.countByCreatedByIdAndStatus(user.getId(), TicketStatus.OPEN);
+            inProgressTickets = ticketRepository.countByCreatedByIdAndStatus(user.getId(), TicketStatus.IN_PROGRESS);
+            resolvedTickets = ticketRepository.countByCreatedByIdAndStatus(user.getId(), TicketStatus.RESOLVED);
+            closedTickets = ticketRepository.countByCreatedByIdAndStatus(user.getId(), TicketStatus.CLOSED);
+
+            statusRaw = ticketRepository.countTicketsGroupByStatusForUser(user.getId());
+            priorityRaw = ticketRepository.countTicketsGroupByPriorityForUser(user.getId());
+            categoryRaw = ticketRepository.countTicketsGroupByCategoryForUser(user.getId());
+        } else {
+            totalTickets = ticketRepository.count();
+            openTickets = ticketRepository.countByStatus(TicketStatus.OPEN);
+            inProgressTickets = ticketRepository.countByStatus(TicketStatus.IN_PROGRESS);
+            resolvedTickets = ticketRepository.countByStatus(TicketStatus.RESOLVED);
+            closedTickets = ticketRepository.countByStatus(TicketStatus.CLOSED);
+
+            statusRaw = ticketRepository.countTicketsGroupByStatus();
+            priorityRaw = ticketRepository.countTicketsGroupByPriority();
+            categoryRaw = ticketRepository.countTicketsGroupByCategory();
+        }
 
         Map<String, Long> statusDist = new HashMap<>();
-        List<Map<String, Object>> statusRaw = ticketRepository.countTicketsGroupByStatus();
         for (Map<String, Object> map : statusRaw) {
             Object statusObj = map.get("status");
             Object countObj = map.get("count");
@@ -38,7 +73,6 @@ public class DashboardServiceImpl implements DashboardService {
         }
 
         Map<String, Long> priorityDist = new HashMap<>();
-        List<Map<String, Object>> priorityRaw = ticketRepository.countTicketsGroupByPriority();
         for (Map<String, Object> map : priorityRaw) {
             Object pObj = map.get("priority");
             Object cObj = map.get("count");
@@ -48,7 +82,6 @@ public class DashboardServiceImpl implements DashboardService {
         }
 
         Map<String, Long> categoryDist = new HashMap<>();
-        List<Map<String, Object>> categoryRaw = ticketRepository.countTicketsGroupByCategory();
         for (Map<String, Object> map : categoryRaw) {
             Object catObj = map.get("category");
             Object cObj = map.get("count");

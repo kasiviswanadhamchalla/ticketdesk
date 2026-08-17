@@ -3,18 +3,8 @@ import { authApi } from '../api/authApi';
 
 const AuthContext = createContext();
 
-const DEFAULT_USER = {
-  id: 1,
-  username: 'admin',
-  email: 'admin@ticketdesk.com',
-  firstName: 'System',
-  lastName: 'Administrator',
-  role: 'ROLE_ADMIN',
-  accessToken: 'bypass-auth-token',
-};
-
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(DEFAULT_USER);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,10 +14,10 @@ export const AuthProvider = ({ children }) => {
         setUser(JSON.parse(cachedUser));
       } catch (e) {
         console.error('Failed to parse user session', e);
-        setUser(DEFAULT_USER);
+        setUser(null);
       }
     } else {
-      setUser(DEFAULT_USER);
+      setUser(null);
     }
     setLoading(false);
   }, []);
@@ -57,11 +47,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const hasRole = (roles) => {
-    if (!user || !user.role) return false;
+    if (!user) return false;
+    const userRole = user.role || (user.roles && user.roles[0]);
+    if (!userRole) return false;
     if (Array.isArray(roles)) {
-      return roles.includes(user.role);
+      return roles.includes(userRole);
     }
-    return user.role === roles;
+    return userRole === roles;
   };
 
   return (

@@ -24,12 +24,25 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
 
     long countByStatus(TicketStatus status);
 
+    long countByCreatedById(Long userId);
+
+    long countByCreatedByIdAndStatus(Long userId, TicketStatus status);
+
     @Query("SELECT t.status as status, COUNT(t) as count FROM Ticket t GROUP BY t.status")
     List<Map<String, Object>> countTicketsGroupByStatus();
+
+    @Query("SELECT t.status as status, COUNT(t) as count FROM Ticket t WHERE t.createdBy.id = :userId GROUP BY t.status")
+    List<Map<String, Object>> countTicketsGroupByStatusForUser(Long userId);
 
     @Query("SELECT p.name as priority, COUNT(t) as count FROM Ticket t JOIN t.priority p GROUP BY p.name")
     List<Map<String, Object>> countTicketsGroupByPriority();
 
+    @Query("SELECT p.name as priority, COUNT(t) as count FROM Ticket t JOIN t.priority p WHERE t.createdBy.id = :userId GROUP BY p.name")
+    List<Map<String, Object>> countTicketsGroupByPriorityForUser(Long userId);
+
     @Query("SELECT c.name as category, COUNT(t) as count FROM Ticket t JOIN t.category c GROUP BY c.name")
     List<Map<String, Object>> countTicketsGroupByCategory();
+
+    @Query("SELECT c.name as category, COUNT(t) as count FROM Ticket t JOIN t.category c WHERE t.createdBy.id = :userId GROUP BY c.name")
+    List<Map<String, Object>> countTicketsGroupByCategoryForUser(Long userId);
 }
