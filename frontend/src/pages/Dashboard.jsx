@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { dashboardApi } from '../api/dashboardApi';
 import { ticketApi } from '../api/ticketApi';
 import { useDocumentTitle } from '../utils/useDocumentTitle';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
-import { Ticket, CheckCircle2, Clock, AlertCircle, PlusCircle, ArrowRight } from 'lucide-react';
+import { Ticket, CheckCircle2, Clock, AlertCircle, PlusCircle, ArrowRight, Shield } from 'lucide-react';
 
 const CHART_COLORS = ['#38bdf8', '#f59e0b', '#10b981', '#94a3b8', '#ef4444'];
 
 export const Dashboard = () => {
   useDocumentTitle('Support Dashboard');
+  const { user } = useAuth();
   const [stats, setStats] = useState(null);
   const [recentTickets, setRecentTickets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +37,7 @@ export const Dashboard = () => {
     fetchData();
   }, []);
 
-  if (loading) return <LoadingSpinner text="Loading operational metrics..." />;
+  if (loading) return <LoadingSpinner text="Loading your dashboard..." />;
 
   const statusChartData = stats?.statusDistribution
     ? Object.entries(stats.statusDistribution).map(([name, value]) => ({ name: name.replace('_', ' '), value }))
@@ -47,15 +49,22 @@ export const Dashboard = () => {
 
   return (
     <div className="p-3 p-md-4 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+      {/* Personalized Welcome Banner */}
+      <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 p-4 rounded-4" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
         <div>
-          <h2 className="fw-bold text-dark mb-1 fs-3">Operational Dashboard</h2>
-          <p className="small mb-0" style={{ color: '#64748b' }}>Real-time IT ticket analytics, SLA tracking, and resolution performance</p>
+          <div className="d-flex align-items-center gap-2 mb-1">
+            <h2 className="fw-bold text-dark mb-0 fs-3">Welcome back, {user?.firstName || 'Team Member'} 👋</h2>
+            <span className="badge bg-indigo-50 text-indigo-700 border border-indigo-200" style={{ background: '#eef2ff', color: '#4f46e5', border: '1px solid #c7d2fe', padding: '0.3em 0.7em', borderRadius: 9999, fontSize: '0.75rem' }}>
+              {user?.role?.replace('ROLE_', '') || 'EMPLOYEE'}
+            </span>
+          </div>
+          <p className="small mb-0" style={{ color: '#64748b' }}>Here is your real-time IT ticket activity, SLA countdowns, and resolution stats.</p>
         </div>
-        <Link to="/tickets/create" className="btn btn-indigo d-inline-flex align-items-center justify-content-center gap-2">
-          <PlusCircle size={16} /> New Support Request
-        </Link>
+        <div className="d-flex align-items-center gap-2">
+          <Link to="/tickets/create" className="btn btn-indigo d-inline-flex align-items-center justify-content-center gap-2">
+            <PlusCircle size={16} /> New Support Ticket
+          </Link>
+        </div>
       </div>
 
       {/* Metrics Cards Grid */}
@@ -125,9 +134,9 @@ export const Dashboard = () => {
           <Card className="glass-card p-4 h-100">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h5 className="text-dark fw-bold mb-0 fs-6">Ticket Status Breakdown</h5>
-              <span className="badge bg-light text-slate-600 border" style={{ fontSize: '0.75rem' }}>Live Analytics</span>
+              <span className="badge bg-light text-slate-600 border" style={{ fontSize: '0.75rem' }}>Live Stats</span>
             </div>
-            <div style={{ width: '100%', height: 250 }}>
+            <div style={{ width: '100%', height: 240 }}>
               <ResponsiveContainer>
                 <PieChart>
                   <Pie
@@ -135,7 +144,7 @@ export const Dashboard = () => {
                     cx="50%"
                     cy="50%"
                     innerRadius={55}
-                    outerRadius={88}
+                    outerRadius={85}
                     paddingAngle={4}
                     dataKey="value"
                   >
@@ -154,10 +163,10 @@ export const Dashboard = () => {
         <Col lg={6}>
           <Card className="glass-card p-4 h-100">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5 className="text-dark fw-bold mb-0 fs-6">Priority Distribution (SLA Target)</h5>
-              <span className="badge bg-light text-slate-600 border" style={{ fontSize: '0.75rem' }}>Volume by SLA</span>
+              <h5 className="text-dark fw-bold mb-0 fs-6">Priority Distribution (SLA Volume)</h5>
+              <span className="badge bg-light text-slate-600 border" style={{ fontSize: '0.75rem' }}>Priority Metrics</span>
             </div>
-            <div style={{ width: '100%', height: 250 }}>
+            <div style={{ width: '100%', height: 240 }}>
               <ResponsiveContainer>
                 <BarChart data={priorityChartData}>
                   <XAxis dataKey="name" stroke="#64748b" fontSize={12} tickLine={false} />
@@ -175,8 +184,8 @@ export const Dashboard = () => {
       <Card className="glass-card p-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="text-dark fw-bold mb-1 fs-6">Recent Support Requests</h5>
-            <p className="text-muted mb-0" style={{ fontSize: '0.8rem' }}>Latest ticket activity submitted to the platform</p>
+            <h5 className="text-dark fw-bold mb-1 fs-6">Recent Tickets</h5>
+            <p className="text-muted mb-0" style={{ fontSize: '0.8rem' }}>Latest ticket records accessible to your user role</p>
           </div>
           <Link to="/tickets" className="d-inline-flex align-items-center gap-1 text-decoration-none small fw-semibold" style={{ color: '#4f46e5' }}>
             View All Tickets <ArrowRight size={14} />
