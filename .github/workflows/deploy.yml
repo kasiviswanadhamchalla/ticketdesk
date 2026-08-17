@@ -106,9 +106,10 @@ jobs:
           IMAGE_URI="$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           echo "Building Docker image: $IMAGE_URI"
           if [ -d "backend" ]; then
-            docker build -t "$IMAGE_URI" -t "$ECR_REGISTRY/$ECR_REPOSITORY:latest" backend/
+            docker build -t "$IMAGE_URI" -t "$ECR_REGISTRY/$ECR_REPOSITORY:latest" -t "$ECR_REGISTRY/$ECR_REPOSITORY:v1" backend/
             docker push "$IMAGE_URI"
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:latest"
+            docker push "$ECR_REGISTRY/$ECR_REPOSITORY:v1"
             echo "image=$IMAGE_URI" >> $GITHUB_OUTPUT
           fi
 
