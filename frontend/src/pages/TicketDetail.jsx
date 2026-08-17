@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Row, Col, Card, Badge, Button, Form, Modal, Alert } from 'react-bootstrap';
+import { Row, Col, Card, Button, Form, Modal, Alert } from 'react-bootstrap';
 import { ticketApi } from '../api/ticketApi';
 import { userApi } from '../api/userApi';
 import { useAuth } from '../context/AuthContext';
@@ -79,17 +79,22 @@ export const TicketDetail = () => {
   if (!ticket) return <Alert variant="danger" className="m-4">Ticket not found.</Alert>;
 
   return (
-    <div className="p-3 p-md-4">
-      <Button variant="link" onClick={() => navigate('/tickets')} className="text-decoration-none p-0 mb-3 d-flex align-items-center gap-1 fw-bold" style={{ color: '#4f46e5' }}>
-        <ArrowLeft size={16} /> Back to Tickets
+    <div className="p-3 p-md-4 max-w-7xl mx-auto">
+      <Button
+        variant="link"
+        onClick={() => navigate('/tickets')}
+        className="text-decoration-none p-0 mb-3 d-inline-flex align-items-center gap-1.5 fw-semibold small"
+        style={{ color: '#4f46e5' }}
+      >
+        <ArrowLeft size={16} /> Back to Directory
       </Button>
 
       {/* Header Info */}
-      <Card className="glass-card p-4 mb-4" style={{ background: '#ffffff' }}>
+      <Card className="glass-card p-4 mb-4">
         <div className="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
           <div>
             <div className="d-flex align-items-center gap-2 mb-2">
-              <span className="fw-mono fs-6 fw-bold" style={{ color: '#475569' }}>{ticket.ticketNumber}</span>
+              <span className="fw-mono fs-6 fw-bold text-muted">{ticket.ticketNumber}</span>
               <span className={`badge badge-status-${ticket.status.toLowerCase()}`}>
                 {ticket.status.replace('_', ' ')}
               </span>
@@ -99,7 +104,7 @@ export const TicketDetail = () => {
                 </span>
               )}
             </div>
-            <h3 className="fw-bold mb-2" style={{ color: '#0f172a' }}>{ticket.title}</h3>
+            <h3 className="fw-bold mb-2 text-dark fs-4">{ticket.title}</h3>
           </div>
 
           {/* Action Buttons */}
@@ -109,7 +114,7 @@ export const TicketDetail = () => {
                 variant="outline-success"
                 size="sm"
                 onClick={() => { setTargetStatus('RESOLVED'); setShowStatusModal(true); }}
-                className="d-flex align-items-center gap-1 fw-bold"
+                className="d-flex align-items-center gap-1.5 fw-semibold"
               >
                 <CheckCircle2 size={16} /> Resolve Ticket
               </Button>
@@ -120,7 +125,7 @@ export const TicketDetail = () => {
                 variant="outline-secondary"
                 size="sm"
                 onClick={() => { setTargetStatus('CLOSED'); setShowStatusModal(true); }}
-                className="d-flex align-items-center gap-1 fw-bold"
+                className="d-flex align-items-center gap-1.5 fw-semibold"
               >
                 <XCircle size={16} /> Close Ticket
               </Button>
@@ -131,7 +136,7 @@ export const TicketDetail = () => {
                 variant="outline-warning"
                 size="sm"
                 onClick={() => { setTargetStatus('REOPENED'); setShowStatusModal(true); }}
-                className="d-flex align-items-center gap-1 fw-bold"
+                className="d-flex align-items-center gap-1.5 fw-semibold"
               >
                 <RotateCcw size={16} /> Reopen Ticket
               </Button>
@@ -140,16 +145,16 @@ export const TicketDetail = () => {
         </div>
 
         {/* Metadata Details */}
-        <Row className="g-3 pt-3 border-top border-slate-200 small" style={{ color: '#334155' }}>
+        <Row className="g-3 pt-3 border-top border-light small" style={{ color: '#475569' }}>
           <Col md={3} sm={6}>
-            <div className="fw-bold mb-1" style={{ color: '#0f172a' }}>Created By</div>
-            <div className="d-flex align-items-center gap-1 font-medium" style={{ color: '#334155' }}>
+            <div className="fw-semibold mb-1 text-dark" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Created By</div>
+            <div className="d-flex align-items-center gap-1.5 fw-semibold text-slate-700">
               <User size={14} className="text-indigo-600" /> {ticket.createdBy?.firstName} {ticket.createdBy?.lastName}
             </div>
           </Col>
 
           <Col md={3} sm={6}>
-            <div className="fw-bold mb-1" style={{ color: '#0f172a' }}>Assigned Support Engineer</div>
+            <div className="fw-semibold mb-1 text-dark" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Assigned Engineer</div>
             {hasRole(['ROLE_ADMIN', 'ROLE_SUPPORT_ENGINEER']) ? (
               <Form.Select
                 size="sm"
@@ -163,20 +168,20 @@ export const TicketDetail = () => {
                 ))}
               </Form.Select>
             ) : (
-              <div style={{ color: '#334155' }}>{ticket.assignedTo ? `${ticket.assignedTo.firstName} ${ticket.assignedTo.lastName}` : 'Unassigned'}</div>
+              <div className="fw-semibold text-slate-700">{ticket.assignedTo ? `${ticket.assignedTo.firstName} ${ticket.assignedTo.lastName}` : 'Unassigned'}</div>
             )}
           </Col>
 
           <Col md={3} sm={6}>
-            <div className="fw-bold mb-1" style={{ color: '#0f172a' }}>Category</div>
-            <div className="d-flex align-items-center gap-1" style={{ color: '#334155' }}>
+            <div className="fw-semibold mb-1 text-dark" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Category</div>
+            <div className="d-flex align-items-center gap-1.5 fw-semibold text-slate-700">
               <Tag size={14} className="text-indigo-600" /> {ticket.category?.name || 'Uncategorized'}
             </div>
           </Col>
 
           <Col md={3} sm={6}>
-            <div className="fw-bold mb-1" style={{ color: '#0f172a' }}>Created Date</div>
-            <div className="d-flex align-items-center gap-1" style={{ color: '#334155' }}>
+            <div className="fw-semibold mb-1 text-dark" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Created Date</div>
+            <div className="d-flex align-items-center gap-1.5 text-slate-600">
               <Clock size={14} className="text-indigo-600" /> {new Date(ticket.createdAt).toLocaleString()}
             </div>
           </Col>
@@ -184,9 +189,9 @@ export const TicketDetail = () => {
       </Card>
 
       {/* Description Section */}
-      <Card className="glass-card p-4 mb-4" style={{ background: '#ffffff' }}>
-        <h5 className="fw-bold mb-3" style={{ color: '#0f172a' }}>Problem Description</h5>
-        <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.65, color: '#1e293b', fontWeight: '500', fontSize: '0.975rem' }}>
+      <Card className="glass-card p-4 mb-4">
+        <h5 className="fw-bold mb-3 text-dark fs-6">Problem Description</h5>
+        <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.65, color: '#1e293b', fontSize: '0.925rem' }}>
           {ticket.description}
         </div>
       </Card>
@@ -199,32 +204,34 @@ export const TicketDetail = () => {
 
       {/* Status Update Modal */}
       <Modal show={showStatusModal} onHide={() => setShowStatusModal(false)} centered className="modal-dark">
-        <Modal.Header closeButton className="bg-white text-dark border-slate-200">
-          <Modal.Title className="fw-bold" style={{ color: '#0f172a' }}>Confirm Status Transition to {targetStatus}</Modal.Title>
+        <Modal.Header closeButton className="bg-white border-bottom border-light px-4 py-3">
+          <Modal.Title className="fw-bold fs-5 text-dark">Transition Ticket to {targetStatus}</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="bg-white text-dark">
+        <Modal.Body className="bg-white p-4">
           {statusError && <Alert variant="danger">{statusError}</Alert>}
           <Form.Group>
-            <Form.Label className="form-label">Status Change Reason / Note (Optional)</Form.Label>
+            <Form.Label className="form-label">Status Change Note / Resolution Reason (Optional)</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
-              placeholder="e.g. Issue resolved after network configuration update..."
+              placeholder="e.g. Verified resolution with user..."
               value={statusComment}
               onChange={(e) => setStatusComment(e.target.value)}
               className="form-control-dark"
             />
           </Form.Group>
         </Modal.Body>
-        <Modal.Footer className="bg-white border-slate-200">
+        <Modal.Footer className="bg-white border-top border-light px-4 py-3">
           <Button variant="outline-secondary" onClick={() => setShowStatusModal(false)}>
             Cancel
           </Button>
           <Button className="btn-indigo" onClick={handleStatusUpdate}>
-            Update Status
+            Confirm Status Update
           </Button>
         </Modal.Footer>
       </Modal>
     </div>
   );
 };
+
+export default TicketDetail;
