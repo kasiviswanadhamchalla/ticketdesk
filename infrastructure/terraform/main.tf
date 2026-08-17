@@ -87,7 +87,7 @@ module "rds" {
   project_name          = var.project_name
   owner                 = var.owner
   environment           = var.environment
-  private_subnet_ids     = module.networking.private_subnet_ids
+  private_subnet_ids    = module.networking.private_subnet_ids
   rds_security_group_id = module.security.rds_security_group_id
   db_name               = "ticketdesk"
   db_username           = "dbadmin"
@@ -146,13 +146,13 @@ module "cloudfront" {
   count  = var.enable_s3 && var.enable_cloudfront ? 1 : 0
   source = "./modules/cloudfront"
 
-  project_name                 = var.project_name
-  owner                        = var.owner
-  environment                  = var.environment
-  frontend_bucket_id           = module.s3[0].frontend_bucket_id
-  frontend_bucket_arn          = module.s3[0].frontend_bucket_arn
+  project_name                = var.project_name
+  owner                       = var.owner
+  environment                 = var.environment
+  frontend_bucket_id          = module.s3[0].frontend_bucket_id
+  frontend_bucket_arn         = module.s3[0].frontend_bucket_arn
   frontend_bucket_domain_name = module.s3[0].frontend_bucket_regional_domain_name
-  tags                         = local.common_tags
+  tags                        = local.common_tags
 }
 
 # -----------------------------------------------------------------------------

@@ -85,9 +85,9 @@ module "s3" {
 
 # 7. CloudFront CDN Module
 module "cloudfront" {
-  source                        = "../../modules/cloudfront"
-  project_name                  = var.project_name
-  environment                   = var.environment
+  source                       = "../../modules/cloudfront"
+  project_name                 = var.project_name
+  environment                  = var.environment
   frontend_s3_website_endpoint = module.s3.frontend_bucket_website_endpoint
 }
 
@@ -130,22 +130,22 @@ module "cloudwatch" {
 
 # 12. ECS Fargate Cluster & Service Module
 module "ecs" {
-  source                       = "../../modules/ecs"
-  project_name                 = var.project_name
-  environment                  = var.environment
-  aws_region                   = var.aws_region
-  private_subnet_ids           = module.vpc.private_subnet_ids
+  source                      = "../../modules/ecs"
+  project_name                = var.project_name
+  environment                 = var.environment
+  aws_region                  = var.aws_region
+  private_subnet_ids          = module.vpc.private_subnet_ids
   ecs_tasks_security_group_id = module.security_groups.ecs_tasks_sg_id
-  target_group_arn             = module.alb.target_group_arn
-  alb_listener_arn             = module.alb.listener_arn
-  ecs_execution_role_arn       = module.iam.ecs_execution_role_arn
-  ecs_task_role_arn            = module.iam.ecs_task_role_arn
-  backend_image_url            = module.ecr.backend_repository_url
-  db_endpoint                  = module.rds.db_instance_address
-  db_name                      = module.rds.db_name
-  db_username                  = "ticketdesk_admin"
-  db_password_secret_arn       = module.secrets.db_password_secret_arn
-  jwt_secret_arn               = module.secrets.jwt_secret_arn
-  attachment_bucket_name       = module.s3.attachment_bucket_name
-  log_group_name               = module.cloudwatch.log_group_name
+  target_group_arn            = module.alb.target_group_arn
+  alb_listener_arn            = module.alb.listener_arn
+  ecs_execution_role_arn      = module.iam.ecs_execution_role_arn
+  ecs_task_role_arn           = module.iam.ecs_task_role_arn
+  backend_image_url           = module.ecr.backend_repository_url
+  db_endpoint                 = module.rds.db_instance_address
+  db_name                     = module.rds.db_name
+  db_username                 = "ticketdesk_admin"
+  db_password_secret_arn      = module.secrets.db_password_secret_arn
+  jwt_secret_arn              = module.secrets.jwt_secret_arn
+  attachment_bucket_name      = module.s3.attachment_bucket_name
+  log_group_name              = module.cloudwatch.log_group_name
 }
