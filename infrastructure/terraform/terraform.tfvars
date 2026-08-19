@@ -9,7 +9,7 @@ cost_center  = "CC-1234"
 enable_rds                  = true
 enable_secrets              = true
 enable_s3                   = true
-enable_cloudfront           = true
+enable_cloudfront           = false
 enable_lambda               = true
 enable_cloudwatch_dashboard = true
 
