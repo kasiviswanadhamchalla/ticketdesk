@@ -6,6 +6,7 @@ variable "project_name" {
 variable "owner" {
   description = "Resource owner identifier"
   type        = string
+  default     = "ks"
 }
 
 variable "environment" {
@@ -36,8 +37,29 @@ variable "aws_region" {
   type        = string
 }
 
+variable "db_password" {
+  description = "Database master password"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "jwt_secret" {
+  description = "JWT Secret Key"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "db_endpoint" {
+  description = "Database connection endpoint"
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   description = "Resource tags"
   type        = map(string)
   default     = {}
 }
+

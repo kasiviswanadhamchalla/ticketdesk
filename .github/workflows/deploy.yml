@@ -76,6 +76,10 @@ jobs:
             npm ci
             npm run build
             aws s3 sync dist/ s3://${{ env.S3_FRONTEND_BUCKET }} --delete
+            if [ -n "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" ]; then
+              echo "Invalidating CloudFront CDN Edge Cache..."
+              aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+            fi
           fi
 
   deploy-backend:

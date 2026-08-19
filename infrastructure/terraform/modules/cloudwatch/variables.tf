@@ -6,6 +6,7 @@ variable "project_name" {
 variable "owner" {
   description = "Resource owner identifier"
   type        = string
+  default     = "ks"
 }
 
 variable "environment" {
@@ -41,8 +42,15 @@ variable "target_group_arn_suffix" {
   default     = ""
 }
 
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-east-1"
+}
+
 variable "tags" {
   description = "Resource tags"
   type        = map(string)
   default     = {}
 }
+

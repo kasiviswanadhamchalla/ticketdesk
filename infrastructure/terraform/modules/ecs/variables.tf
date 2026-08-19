@@ -6,6 +6,7 @@ variable "project_name" {
 variable "owner" {
   description = "Resource owner identifier"
   type        = string
+  default     = "ks"
 }
 
 variable "environment" {
@@ -108,8 +109,45 @@ variable "log_retention_days" {
   default     = 7
 }
 
+variable "ecs_tasks_security_group_id" {
+  description = "Security group ID for ECS tasks"
+  type        = string
+  default     = ""
+}
+
+variable "alb_listener_arn" {
+  description = "ARN of ALB Listener"
+  type        = string
+  default     = ""
+}
+
+variable "backend_image_url" {
+  description = "URL of backend container image"
+  type        = string
+  default     = ""
+}
+
+variable "db_endpoint" {
+  description = "RDS database endpoint address"
+  type        = string
+  default     = ""
+}
+
+variable "db_name" {
+  description = "Name of database"
+  type        = string
+  default     = "ticketdesk"
+}
+
+variable "log_group_name" {
+  description = "Name of CloudWatch log group"
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   description = "Resource tags"
   type        = map(string)
   default     = {}
 }
+

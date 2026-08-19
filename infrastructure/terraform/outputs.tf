@@ -112,6 +112,11 @@ output "cloudfront_domain_name" {
   value       = var.enable_s3 && var.enable_cloudfront ? module.cloudfront[0].distribution_domain_name : "N/A"
 }
 
+output "cloudfront_distribution_id" {
+  description = "ID of CloudFront CDN distribution for edge cache invalidations"
+  value       = var.enable_s3 && var.enable_cloudfront ? module.cloudfront[0].distribution_id : "N/A"
+}
+
 # -----------------------------------------------------------------------------
 # Lambda & CloudWatch Outputs (M5/M7)
 # -----------------------------------------------------------------------------

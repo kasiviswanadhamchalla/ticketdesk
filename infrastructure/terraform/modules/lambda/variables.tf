@@ -6,6 +6,7 @@ variable "project_name" {
 variable "owner" {
   description = "Resource owner identifier"
   type        = string
+  default     = "ks"
 }
 
 variable "environment" {
